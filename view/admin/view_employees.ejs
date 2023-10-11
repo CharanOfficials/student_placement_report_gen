@@ -1,0 +1,86 @@
+<main>
+    <div custom_table_outer_container>
+        <table class="table caption-top table-striped table-bordered custom_table">
+            <!-- <caption>List of users</caption> -->
+            <thead>
+                <tr>
+                    <th id="custom_col" scope="col">Sr. No.</th>
+                    <th id="custom_col" scope="col">First name</th>
+                    <th id="custom_col" scope="col">Last name</th>
+                    <th id="custom_col" scope="col">Email</th>
+                    <th id="custom_col" scope="col">Contact</th>
+                    <th id="custom_col" scope="col">Emp_id</th>
+                    <th id="custom_col" scope="col">D.O.B</th>
+                    <th id="custom_col" scope="col">Gender</th>
+                    <th id="custom_col" scope="col">Status</th>
+                    <th id="custom_col" scope="col">No. of Performances</th>
+                    <th id="custom_col" scope="col">Add Performance</th>
+                    <th id="custom_col" scope="col">Toggle Rights</th>
+                    <th id="custom_col" scope="col">Edit</th>
+                    <th id="custom_col" scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% user.forEach((u, index)=> { %>
+                    <tr>
+                        <th id="custom_col" scope="row"><%=index+1%></th>
+                        <td id="custom_col" >
+                            <%= u.first_name %>
+                        </td>
+                        <td id="custom_col" >
+                            <%= u.last_name %>
+                        </td>
+                        <td id="custom_col" >
+                            <%= u.email %>
+                        </td>
+                        <td id="custom_col" >
+                            <%= u.contact_no %>
+                        </td>
+                        <td id="custom_col" >
+                            <%= u.employee_id %>
+                        </td>
+                        <td id="custom_col" >
+                            <%= u.date_of_birth.toLocaleDateString() %>
+                        </td>
+                        <td id="custom_col" >
+                            <%= u.gender %>
+                        </td>
+                        <td id="custom_col" >
+                            <%= u.status %>
+                        </td>
+                        <td id="custom_col">
+                            <% if (u.performances.length <= 0) { %>
+                                <%= u.performances.length %>
+                                    <% } else { %>
+                                        <%= u.performances.length %>
+                                        <a href="/admin/performances?userid=<%= u._id %>">
+                                            &nbsp&nbsp&nbsp<i class="bi bi-pen"></i>
+                                        </a>
+                                        <% } %>
+                        </td>
+                        <td id="custom_col">
+                                <div id="rights"><a
+                                href="/admin/performance?userid=<%=u._id%>%>"><i class="fa-solid fa-plus"></i></a></div>
+                        </td>
+                        <td id="custom_col"">
+                            <div id="rights"><a href="/admin/toggleRights?userid=<%=u._id%>&status=<%=u.account_type%>"><%= u.account_type %></a></div>
+                        </td>
+                        <td id="custom_col">
+                            <a href="/admin/editemployee?userid=<%= u._id %>"><i class="bi bi-pencil"></i></a>
+                        </td>
+                        
+                        <td id="custom_col">
+                            <%if(u.performances.length === 0 && u.account_type === 'employee'){%>
+                            <div id="rights">
+                                <a href="/admin/deleteemployee?userid=<%= u._id %>"><i class="bi bi-trash"></i></a>
+                            </div>
+                            <%}else{%>
+                                NA
+                                <%}%>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+    </div>
+</main>

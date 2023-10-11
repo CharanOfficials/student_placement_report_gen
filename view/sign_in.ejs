@@ -1,0 +1,29 @@
+<main>
+    <div class="wrapper main_login"">
+        <form id="login" class="login" method="post">
+            <p class="title">Log in</p>
+            <div class="account">
+                <div>
+                    <label for="admin">Admin</label>
+                    <input id="admin" type="radio" name="account_type" value="admin" checked>
+                </div>
+            </div>
+            <input name="email" type="email" placeholder="Email" required autofocus/>
+            <i class="fa fa-user"></i>
+            <input name="password" class="password" type="password" placeholder="Password" required/>
+            <i class="password fa fa-key"></i>
+            <div class="links">
+                <div class="below_links">
+                    <a class="forget-password" href="/forgotPassword">Forgot your password?</a>
+                    <a style="align-items:end;" href="/signUp" class="sign-up">Sign Up</a>
+                </div>
+            </div>
+            <button>
+                <i class="spinner"></i>
+                <span class="state">Log in</span>
+            </button>
+        </form>
+        </p>
+    </div>
+    <script src="./static/js/home.js"></script>
+</main>

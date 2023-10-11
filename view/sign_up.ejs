@@ -1,0 +1,77 @@
+<main>
+    </div>
+    <div class="outer-container">
+        <form id="add_emp_form" action="/employee/create" method="POST">
+            <div class="inner-container">
+            <div>
+                <div>
+                    <label for="fname">First Name</label>
+                    <input type="text" name="fName" id="fname" maxlength="25" required>
+                </div>
+                <div>
+                    <label for="lname">Last Name</label>
+                    <input type="text" name="lName" id="lname" maxlength="25" required>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" required>
+                </div>
+                <div>
+                    <label for="contact">Contact No.</label>
+                    <input type="number" name="contact" id="contact" maxlength="12" minlength="10" required>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label for="empid">Employee Id</label>
+                    <input type="text" name="empid" id="empid" maxlength="12" required>
+                </div>
+                <div>
+                    <label for="dob">Date of Birth (&lt 01/01/2000)</label>
+                    <input type="date" name="dob" id="dob" required>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label for="gender">Gender</label>
+                    <select name="gender" id="gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select required>
+                </div>
+                <div>
+                    <label for="dept">Department</label>
+                    <select name="dept" id="dept">
+                    <% department.forEach(item=>{%>
+                        <option value="<%=item._id%>">
+                            <%=item.dept_name%>
+                        </option>
+                        <%}) %>
+                    </select required>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label for="posi">Position</label>
+                    <select name="position" id="posi">
+                    <% position.forEach(item=>{%>
+                        <option value="<%=item._id%>">
+                            <%=item.pos_name%>
+                        </option>
+                        <%}) %>
+                    </select required>
+                </div>
+                <div>
+                    <label for="quali">Highest Qualification</label>
+                    <input type="text" name="qualification" id="quali">
+                </div required>
+            </div>
+            <div></div>
+            <div><button>Submit</button></div>
+            </div>
+        </form>
+    </div>
+</main>

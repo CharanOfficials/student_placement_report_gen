@@ -1,0 +1,79 @@
+<main>
+    </div>
+    <div class="outer-container">
+        <form id="edit_emp_form" action="/admin/employee" method="POST">
+            <div class="inner-container">
+                <div>
+                    <input type="hidden" name="id" value="<%=user._id%>">
+                    <div>
+                        <label for="empid">Employee Id</label>
+                        <input type="text" name="empid" id="empid" maxlength="12" value="<%=user.employee_id%>" disabled>
+                    </div>
+                    <div>
+                        <label for="fname">First Name</label>
+                        <input type="text" name="fName" id="fname" maxlength="25" value="<%=user.first_name%>" >
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label for="lname">Last Name</label>
+                        <input type="text" name="lName" id="lname" maxlength="25" value="<%=user.last_name%>" required>
+                    </div>
+                    <div>
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" value="<%=user.email%>" required disabled>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label for="contact">Contact No.</label>
+                        <input type="number" name="contact" id="contact" maxlength="12" minlength="10" value="<%=user.contact_no%>" required disabled>
+                    </div>
+                    <div>
+                        <label for="dob">Date of Birth (&lt 01/01/2000)</label>
+                        <input type="date" name="dob" id="dob" value="<%=user.date_of_birth.toISOString().split('T')[0]%>" required>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label for="gender">Gender</label>
+                        <select name="gender" id="gender">
+                            <option value="male" <%= user.gender === "male" ? 'selected' : '' %>>Male</option>
+                            <option value="female" <%= user.gender === "female" ? 'selected' : '' %>>Female</option>
+                            <option value="other" <%= user.gender === "other" ? 'selected' : '' %>>Other</option>
+                        </select required>
+                    </div>
+                    <div>
+                        <label for="quali">Highest Qualification</label>
+                        <input type="text" name="qualification" id="quali" value="<%=user.highest_qualification%>" required>
+                    </div>
+                    <!-- <div>
+                        <label for="dept">Department</label>
+                        <select name="dept" id="dept">
+                            <% department.forEach(item=>{%>
+                                <option value="<%=item._id%>">
+                                    <%=item.dept_name%>
+                                </option>
+                                <%}) %>
+                        </select required>
+                    </div> -->
+                </div>
+                <div>
+                    <!-- <div>
+                        <label for="posi">Position</label>
+                        <select name="position" id="posi">
+                            <% position.forEach(item=>{%>
+                                <option value="<%=item._id%>">
+                                    <%=item.pos_name%>
+                                </option>
+                                <%}) %>
+                        </select disabled>
+                    </div> -->
+
+                </div>
+                <div></div>
+                <div><button>Submit</button></div>
+            </div>
+        </form>
+    </div>
+</main>

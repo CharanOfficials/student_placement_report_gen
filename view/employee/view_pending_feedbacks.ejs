@@ -1,0 +1,44 @@
+<main>
+    <div table-responsive custom_table_outer_container>
+        <table class="table caption-top table-striped table-bordered custom_table">
+            <thead>
+                <tr>
+                    <th id="custom_col" scope="col">Sr. No.</th>
+                    <th id="custom_col" scope="col">Added By</th>
+                    <th id="custom_col" scope="col">Added On</th>
+                    <th id="custom_col" scope="col">Status</th>
+                    <th id="custom_col" scope="col">Content</th>
+                    <th id="custom_col" scope="col">Feedback</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%performances.forEach((p, index)=>{%>
+                    <tr>
+                        <th id="custom_col" scope="row">
+                            <%=index+1%>
+                        </th>
+                        <td id="custom_col">
+                            <%= p.posted_by_user.first_name %>
+                                <%= p.posted_by_user.last_name %>
+                        </td>
+                        <td id="custom_col">
+                            <%= p.createdAt.toLocaleDateString() %>
+                        </td>
+                        <td id="custom_col">
+                            <%= p.status %>
+                        </td>
+
+                        <td id="custom_col">
+                            <%=p.content%>
+                        </td>
+
+                        <td id="custom_col" class="icon">
+                            <a href="/employee/feedback?perf_id=<%=p._id%>">
+                                <i class="fa-regular fa-comments feedback_img"></i>
+                            </a>
+                        </td>
+                    <%})%>
+            </tbody>
+        </table>
+    </div>
+</main>

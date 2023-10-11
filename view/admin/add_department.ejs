@@ -1,0 +1,26 @@
+<main>
+    </div>
+    <div class="pos-outer-container">
+        <form id="dept_form" action="/admin/department" method="POST">
+            <div class="inner-container">
+                <div>
+                    <div>
+                        <label for="deptname">Department Name</label>
+                        <input type="text" name="depName" id="deptname" required>
+                    </div>
+                    <div>
+                        <label for="contact">Contact No.</label>
+                        <input type="number" name="contact" id="contact" minlength="10" maxlength="12" required>
+                    </div>
+                    <div>
+                        <label for="status">Status</label>
+                        <select name="status" id="status">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select required>
+                    </div>
+                    <div><button>Submit</button></div>
+                </div>
+        </form>
+    </div>
+</main>

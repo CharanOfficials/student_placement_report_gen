@@ -1,0 +1,36 @@
+<main>
+    <div class="allocate_perf">
+        <div class="allocated_by">
+            <label>Allocated By</label>
+            <br>
+            <br>
+            <div><%=allocate_by.first_name%> <%=allocate_by.last_name%></div>
+            <div>( <%=allocate_by.department.dept_name%> )</div>
+        </div>
+        <div class="allocated">
+            <div><label>Allocated</label></div>
+            <div class="allocated_scroll">
+                <select id="multiselect" class="select_mul" multiple>
+                <% users.forEach(u=> { %>
+                    <option style="white-space: pre-line" data-alloc="<%=u._id%>">
+                        <%= u.first_name %> <%= u.last_name %> (<%= u.department.dept_name %> :- <%= u.employee_id %>)
+                    </option>
+                    <% }) %>
+                </select>
+            </div>
+        </div>
+        <div class="allocated_to">
+            <div><label>Allocated To</label></div>
+            <select class="select_mul custom-select" id="dropdown">
+                <% users.forEach(u=> { %>
+                    <option style="width: 5rem;" data-alloc_to="<%=u._id%>">
+                        <%= u.first_name %>
+                            <%= u.last_name %> (<%= u.department.dept_name %> :- <%= u.employee_id %>)
+                    </option>
+                    <% }) %>
+            </select>
+            
+        </div>
+    </div>
+    <div class="sub_allocation_btn"><button id="sub_allocation">Submit</button></div>
+</main>

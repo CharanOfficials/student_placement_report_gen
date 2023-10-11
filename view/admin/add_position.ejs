@@ -1,0 +1,29 @@
+<main>
+    </div>
+    <div class="pos-outer-container">
+        <form id="posi_form" action="position/create" method="POST">
+            <div class="inner-container">
+                <div>
+                    <div>
+                        <label for="posname">Position Name</label>
+                        <input type="text" name="posName" id="posname" required>
+                    </div>
+                    <div>
+                        <label for="dname">Department Name</label>
+                        <select name="deptId" id="dname">
+                            <% department.forEach(item=>{%>
+                                <option value="<%=item._id%>"><%=item.dept_name%></option>
+                            <%}) %>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="status">Status</label>
+                        <select name="status" id="status">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <div><button>Submit</button></div>
+        </form>
+    </div>
+</main>

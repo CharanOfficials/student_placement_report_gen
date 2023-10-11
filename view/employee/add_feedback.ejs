@@ -1,0 +1,46 @@
+<main>
+    <div class="performance">
+        <input type="hidden" id="perf_id" value="<%=performance._id%>">
+        <div class="upper_outer">
+            <div class="user_details">
+                <div class="emp">Employee Details</div>
+                <br>
+                <label class="per_emp_detail">Name: <%= user.first_name %>
+                        <%= user.last_name %></label>
+                <br>
+                <label class="per_emp_detail">Employee ID: <%= user.employee_id %></label>
+                <br>
+                <label class="per_emp_detail">Status: <%= user.status %></label>
+                <br>
+                <label class="per_emp_detail">Email: <%= user.email %></label>
+                <br>
+                <label class="per_emp_detail">Account Type: <%= user.account_type %></label>
+                <br>
+                <label class="per_emp_detail">Department: <%= user.department.dept_name %></label>
+                <br>
+                <label class="per_emp_detail">Position: <%= user.position.pos_name %></label>
+            </div>
+            <div class="performance_review">
+                <div class="sub_performance_review">
+                    <div class="emp">Performance Review</div>
+                </div>
+                <div>
+                    <textarea cols="80" rows="8" disabled><%=performance.content%></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="feedback">
+            <div class="sub_feedback">
+                <label>Feedback</label>
+            </div>
+            <div class="feed_submit">
+            <%if(performance.feedback){%>
+                <textarea name="feedback" cols="80" rows="4" disabled><%=performance.feedback.content%></textarea>
+                <%}else{%>
+                    <textarea name="feedback" id="p_feed" cols="80" rows="4"></textarea>
+                    <div><button id="fed_btn">Submit</button></div>
+                    <%}%>
+            </div>
+        </div>
+    </div>
+</main>
