@@ -1,8 +1,10 @@
 import Dept from '../model/department.js'
 import Position from '../model/position.js'
 import User from '../model/user.js'
-import Performance from '../model/performance.js'
-import Participation from '../model/participations.js'
+import Batch from '../model/batch.model.js'
+import College from '../model/college.model.js'
+import Company from '../model/company.model.js'
+import Interview from '../model/interview.model.js'
 export default class AdminController{
     // To retrive the department page
     getDepartment(req, res) {
@@ -215,237 +217,200 @@ export default class AdminController{
             </script>`)
         }
     }
-    // make adminn to employee and vice versa
-    async toggleRights(req, res) {
-        try {
-            const { status, userid } = req.query
-            let updateStatus = "employee"
-            if (status === "admin") {
-                updateStatus = "employee"
-            } else if (status === "employee") {
-                updateStatus = "admin"
-            }
-            await User.findByIdAndUpdate(userid, { account_type: updateStatus })
-            return res.status(200).send(`<script>alert("Rights updated successfully."); 
-            window.location.href = '/admin/employees'
-            </script>`)
-        }catch (err) {
-            console.log("Error while toggling the rights", err)
-            return res.status(500).send(`<script>alert("Internal server error.")
-            window.location.href = '/admin/employees'
-            </script>`)
-        }
+    // get  batch
+    async getBatch(req, res) {
+        return res.render('./admin/add_batch', {
+            title: "Add Batch",
+            menuPartial: "_admin_menu",
+        })
     }
-    // get add performance page against an employee
-    async getPerformance(req, res) {
+    // add batch
+    async postBatch(req, res) {
+        const {batch_name, batch_no, status} = req.body
         try {
-            const {userid} = req.query
-            const user = await User.findById(userid)
-                .populate({ path: 'department', select: 'dept_name' })
-                .populate({ path: 'position', select: 'pos_name' });
-            res.render('./admin/add_performance', {
-                title: "Add Performance",
-                menuPartial: "_admin_menu",
-                user:user
+            const batch = await Batch.findOne({ 'batchName': batch_name })
+
+            if (!batch) {
+                await Batch.create({
+                    batchName:batch_name,
+                    batchNo:batch_no,
+                    status: status,
+                    posted_by:req.userID
+                })
+                return res.status(200).json({
+                    success: true,
+                    message:"Batch added successfully"
+                })
+            } 
+            return res.status(409).json({
+                success: false,
+                error: 'Duplicate entry detected.'
             })
         } catch (err) {
-            console.log("Error while toggling the rights", err)
-            return res.status(500).send(`<script>alert("Internal server error.")
-            window.location.href = '/admin/employees'
-            </script>`)
+            console.log("Error while adding the batch", err)
+            res.status(500).json({error: "Internal server error."})
         }
     }
-    // add a new performance against an employee
-    async postPerformance(req, res) {
-        try {
-            const posted_by_user = req.userID
-            const p_review = req.body.p_review.trim()
-            const userid = req.body.userid
-            const status = "active"
-            if (p_review.length === 0) {
-                return res.status(400).json({error:"Invalid data."})
-            }
-            const user = await User.findById(userid)
-            const perf = await Performance.create({
-                content: p_review,
-                status: status,
-                posted_by_user: posted_by_user,
-                posted_for_user: userid
-            })
-            user.performances.push(perf)
-            await user.save()
-            if (perf) {
-                return res.status(200).json({success:true, message:"Performance added successfully."})
-            }
-        }catch (err) {
-            console.log("Error while submitting the performance review", err)
-            return res.status(500).json({error:"Internal server error"})
-        }
+    // get  batch
+    async getCollege(req, res) {
+        return res.render('./admin/add_college', {
+            title: "Add College",
+            menuPartial: "_admin_menu",
+        })
     }
-    // get all the performances available against an employee
-    async viewPerformances(req, res) {
+    // add batch
+    async postCollege(req, res) {
+        const {college_name, address, contact, status} = req.body
         try {
-            const empId = req.query.userid
+            const college = await College.findOne({ 'name': college_name })
 
-            const performances = await Performance.find({ posted_for_user: empId })
-            .populate('posted_by_user', 'first_name last_name')
-            .populate('posted_for_user', 'first_name last_name')
-                .exec();
-            return res.render('./admin/view_performances', {
-                title: "View Performances",
-                menuPartial: "_admin_menu",
-                user: empId,
-                performances: performances
+            if (!college) {
+                await College.create({
+                    name:college_name,
+                    address: address,
+                    contact:contact,
+                    status: status,
+                    posted_by:req.userID
+                })
+                return res.status(200).json({
+                    success: true,
+                    message:"College added successfully"
+                })
+            } 
+            return res.status(409).json({
+                success: false,
+                error: 'Duplicate entry detected.'
             })
-        }catch (err) {
-            console.log("Error while getting performances.", err)
-            return res.status(500).send(`<script>alert("Internal server error.")
-            window.location.href = '/admin/employees'
-            </script>`)
+        } catch (err) {
+            console.log("Error while adding the college", err)
+            res.status(500).json({error: "Internal server error."})
         }
     }
-    // get edit performance
-    async getEditPerformance(req, res) {
+    // get  batch
+    async getCompany(req, res) {
+        return res.render('./admin/add_company', {
+            title: "Add Company",
+            menuPartial: "_admin_menu",
+        })
+    }
+    // add batch
+    async postCompany(req, res) {
+        const {company_name, company_address, contact_person_name, contact, status} = req.body
         try {
-            const { perf_id } = req.query
-            const perf = await Performance.findById(perf_id)
-            const user = await User.findById(req.userID)
-            if (!perf) {
+            const company = await Company.findOne({ 'name': company_name })
+
+            if (!company) {
+                await Company.create({
+                    name:company_name,
+                    address: company_address,
+                    contactPersonName: contact_person_name,
+                    contactPersonMobile:contact,
+                    status: status,
+                    posted_by:req.userID
+                })
+                return res.status(200).json({
+                    success: true,
+                    message:"Company added successfully"
+                })
+            } 
+            return res.status(409).json({
+                success: false,
+                error: 'Duplicate entry detected.'
+            })
+        } catch (err) {
+            console.log("Error while adding the Company", err)
+            res.status(500).json({error: "Internal server error."})
+        }
+    }
+    async getCompanies(req, res) {
+        try {
+            const companies = await Company.find().populate('posted_by', 'first_name last_name -_id')
+            if (companies.length !== 0) {
+                return res.render('./admin/view_companies', {
+                    title: "View Companies",
+                    menuPartial: "_admin_menu",
+                    companies:companies
+                })
+            }else {
                 return res.status(404).send(`<script>
-                alert("Invalid performance request.")
-                window.location.href='/admin/employees'
+                alert("No company data found")
                 </script>`)
             }
-            return res.render(
-                './admin/edit_performance',
-                {
-                    title: "Edit/ View Performance",
-                    menuPartial:"_admin_menu",
-                    performance: perf,
-                    user:user
-                }
-            )
-        }catch (err) {
-            console.log("Error while getting edit performance.", err)
+        } catch (err) {
+            console.log("Error while getting the companies", err)
             return res.status(500).send(`<script>alert("Internal server error.")
             window.location.href = '/admin/employees'
             </script>`)
         }
     }
-    // save edited performance
-    async postEditPerformance(req, res) {
-        try {
-            const p_review = req.body.p_review.trim()
-            const { perf_id } = req.body
-            const userid = req.userID
-            if (p_review.length === 0) {
-                return res.status(400).json({error:"Invalid data."})
-            }
-            const perf = await Performance.findById(perf_id)
-            if (!perf || perf.feedback) {
-                return res.status(404).json({error:"Invalid request"})
-            }
-            const performances = await Performance.findByIdAndUpdate(perf_id, { content: p_review, posted_by_user: userid })
-            return res.status(200).json({success:true, message:"Review updated successfully"})
-        }catch (err) {
-            console.log("Error while posting edit performance.", err)
-            return res.status(500).json({error:"Internal server error."})
-        }
+    async getInterview(req, res) {
+        const {comp_id} = req.query
+        return res.render('./admin/add_interview', {
+            title: "Add Interview",
+            menuPartial: "_admin_menu",
+            comp_id:comp_id
+        })
     }
-    // delete performance
-    async deletePerformance(req, res){
+    async postInterview(req, res) {
+        const { company, profile_name, profile_desc, interview_date, status } = req.body
+        
         try {
-            const { perf_id } = req.query
-            const delPerf = await Performance.findByIdAndDelete(perf_id)
-            const user = await User.findById(delPerf.posted_for_user)
-            user.performances.pull(perf_id)
-            await user.save()
-            if (delPerf) {
-                return res.status(200).send(`<script>alert("Performance deleted successfullt.")
-                window.location.href = '/admin/employees'
-                </script>`)
+            const comp = await Company.findById(company)
+            if (!comp) {
+                return res.status(404).json({error:"Invalid company id."})
             }
-        }catch (err) {
-            console.log("Error while deleting the performance.", err)
-            return res.status(500).send(`<script>alert("Internal server error.")
-            window.location.href = '/admin/employees'
-            </script>`)
-        }
-    }
-    // get feedback
-    async getFeedback(req, res) {
-        try {
-            const user = req.userID
-            const { perf_id } = req.query
-            const performance = await Performance.findById(perf_id).populate('feedback', 'content')
-            // if (performance.feedback) {
-            //     return res.status(200).send(`<script>alert("Feedback already submitted")
-            //     window.location.href = "/employee/pendingfeedbacks"
-            //     </script>`)
-            // }
-            const userD = await User.findById(user).select('-password')
-                .populate({ path: 'department', select: 'dept_name' })
-                .populate({ path: 'position', select: 'pos_name' });
-            return res.render('./admin/view_feedback', {
-                title: "Add Feedback",
-                menuPartial: "_admin_menu",
-                user: userD,
-                performance:performance
+            const interviewExist = await Interview.findOne({ profileName: profile_name })
+            if (!interviewExist) {
+                const interview = await Interview.create({
+                    profileName:profile_name,
+                    profileDescription: profile_desc,
+                    date: interview_date,
+                    company:company,
+                    status: status,
+                    posted_by:req.userID
+                })
+                comp.interviews.push(interview)
+                await comp.save()
+                return res.status(200).json({
+                    success: true,
+                    message:"Interview added successfully"
+                })
+            } 
+            return res.status(409).json({
+                success: false,
+                error: 'Duplicate entry detected.'
             })
         } catch (err) {
-            console.log("Error while getting the employee feedback.", err)
-            return res.status(500).send(`<script>alert("Internal server error.")
-            window.location.href = '/employee/viewemployees'
-            </script>`)
+            console.log("Error while adding the Company", err)
+            res.status(500).json({error: "Internal server error."})
         }
     }
-    // get page to allocate performances
-    async getAllocParticipation(req, res) {
-        try {
-            const alloc_by = await User.findById(req.userID)
-                .populate('first_name last_name')
-                .populate('department', 'dept_name')
-            const user = await User.find().select('-password').populate('department','dept_name')
-            return res.render('./admin/review_participation', {
-                title:'Review Participation',
-                menuPartial: '_admin_menu',
-                users: user,
-                allocate_by:alloc_by
-            })
-        }catch (err) {
-            console.log("Error while getting the Review Participation.", err)
-            return res.status(500).send(`<script>alert("Internal server error.")
-            window.location.href = '/admin/employees'
-            </script>`)
-        }
-    }
-    //  allocate performances
-    async postAllocParticipation(req, res) {
-        try {
-            const fromUser = req.userID;
-            const { dropdown, multiselect } = req.body;
-            const alloc = multiselect
-                .filter(alloc => alloc.alloc && alloc.alloc.length === 24)
-                .map(alloc => alloc.alloc)
-            if (alloc.length === 0) {
-                return res.status(404).json({error:"Empty allocations are not allowed."})
-            }
-            const partResult = await Participation.findOne({ allocatee: dropdown }).
-                populate('allocatee', 'first_name last_name')
-            if (!partResult && alloc.length > 0) {
-                const participated = await Participation.create({
-                    allocatee: dropdown,
-                    allocater: fromUser,
-                    allocated: alloc
-                });
+    async getInterviews(req, res) {
+        const comp_id = req.query.comp_id;
 
-                return res.status(200).json({ success: true, message: "Allocations done successfully" })
-            } else if(partResult) {
-                return res.status(409).json({ error: `Ask ${partResult.allocatee.first_name} ${partResult.allocatee.last_name} to clear previous pending performances first.` })
+        try {
+            const company = await Company.findById(comp_id)
+                .populate({
+                    path: 'interviews'
+                })
+            if (!company) {
+                return res.status(404).send(`<script>
+                    alert("Invalid company.");
+                    window.location.href = '/admin/companies';
+                </script>`);
             }
-        }catch (err) {
-            console.log("Error while adding the department", err)
-            res.status(500).json({ error: "Internal server error." })
+            const interviews = company.interviews
+            return res.render('./admin/view_interviews', {
+                title: "View Interviews",
+                menuPartial: "_admin_menu",
+                company:company.name,
+                interviews: interviews
+            });
+        } catch (err) {
+            console.log("Error while getting the Interviews", err)
+            return res.status(500).send(`<script>alert("Internal server error.")
+            window.location.href = '/admin/companies'
+            </script>`)
         }
     }
 }

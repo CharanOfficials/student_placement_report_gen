@@ -34,10 +34,10 @@ export default class UserController{
                         expiresIn: "1h"
                     }
                 )
-                let redirect = "/admin/employees"
-                if (account_type === 'employee') {
-                    redirect = "/employee/pendingfeedbacks"
-                }
+                let redirect = "/admin/companies"
+                // if (account_type === 'employee') {
+                //     redirect = "/employee/pendingfeedbacks"
+                // }
                 res.cookie('jwt', token, { httpOnly: true })
                 return res.status(200).json({success:true, message:"Login successful", token:token, redirect:redirect})   
             }else {

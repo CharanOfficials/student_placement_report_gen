@@ -1,0 +1,26 @@
+<main>
+    </div>
+    <div class="pos-outer-container">
+        <form id="batch_form" action="/admin/batch" method="POST">
+            <div class="inner-container">
+                <div>
+                    <div>
+                        <label for="batch_name">Batch Name</label>
+                        <input type="text" name="batch_name"  autofocus>
+                    </div>
+                    <div>
+                        <label for="batch_no">Batch No.</label>
+                        <input type="text" name="batch_no" minlength="5" maxlength="12" >
+                    </div>
+                    <div>
+                        <label for="status">Status</label>
+                        <select name="status" id="status">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select required>
+                    </div>
+                    <div><button>Submit</button></div>
+                </div>
+        </form>
+    </div>
+</main>

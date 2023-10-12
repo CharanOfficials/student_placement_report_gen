@@ -7,6 +7,7 @@ const collegeSchema = mongoose.Schema({
     },
     address: {
         type: String,
+        required: true,
         required:true
     },
     contact: {
@@ -18,6 +19,11 @@ const collegeSchema = mongoose.Schema({
     status: {
         type: String,
         enum: ["active", "inactive"],
+        required:true
+    },
+    posted_by: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
         required:true
     }
 })

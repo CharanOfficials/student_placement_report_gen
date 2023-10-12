@@ -1,0 +1,46 @@
+<main>
+    <div custom_table_outer_container>
+        <table class="table caption-top table-striped table-bordered custom_table">
+            <!-- <caption>List of users</caption> -->
+            <thead>
+                <tr>
+                    <th id="custom_col" scope="col">Sr. No.</th>
+                    <th id="custom_col" scope="col">Added By</th>
+                    <th id="custom_col" scope="col">Company name</th>
+                    <th id="custom_col" scope="col">Company Address</th>
+                    <th id="custom_col" scope="col">Contact Person</th>
+                    <th id="custom_col" scope="col">Contact</th>
+                    <th id="custom_col" scope="col">Total no. of Interviews</th>
+                    <th id="custom_col" scope="col">Create Interview</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% companies.forEach((u, index)=> { %>
+                    <tr>
+                        <th id="custom_col" scope="row"><%=index+1%></th>
+                        <td id="custom_col">
+                            <%= u.posted_by.first_name%> <%= u.posted_by.last_name%>
+                        </td>
+                        <td id="custom_col" >
+                            <%= u.name %>
+                        </td>
+                        <td id="custom_col" >
+                            <%= u.address %>
+                        </td>
+                        <td id="custom_col" >
+                            <%= u.contactPersonName %>
+                        </td>
+                        <td id="custom_col" >
+                            <%= u.contactPersonMobile %>
+                        </td>
+                        <td id="custom_col" >
+                            <a href="/admin/interviews?comp_id=<%=u._id%>%>"><%= u.interviews.length %></a>
+                        </td>
+                        <td id="custom_col">
+                            <div id="rights"><a href="/admin/interview?comp_id=<%=u._id%>%>"><i class="fa-solid fa-plus"></i></a></div>
+                        </td>
+                    <% }) %>
+            </tbody>
+        </table>
+    </div>
+</main>

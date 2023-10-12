@@ -135,8 +135,8 @@ footer {
 
 .pos-outer-container {
   margin-top: 2rem;
-  min-height: 70vh;
-  background-color: #fcfcfd;
+  min-height: 90vh;
+  background-color: transparent;
   opacity: 0.8;
   display: flex;
   justify-content: center;
@@ -177,6 +177,13 @@ footer {
   color: black;
   text-align: center;
   font-size: 1.4rem;
+}
+.pos-outer-container textarea {
+  margin-top: 1rem;
+  border-color: #2196F3;
+  color: #2196F3;
+  outline-color: #2196F3;
+  font-size: 1.2rem;
 }
 
 .outer-container {

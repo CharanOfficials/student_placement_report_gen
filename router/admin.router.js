@@ -9,11 +9,20 @@ import { empEditValidateRequest } from '../middleware/vEmpEdit.middleware.js'
 import { checkData } from '../middleware/vGetSignUp.middleware.js'
 // validate user id if sent in query params to avoid db id length errors
 import { validateEmp } from '../middleware/vUserId.middleware.js'
-// validate performance id
-import { validatePerfId } from '../middleware/vPerfId.middleware.js'
+// validate batch data
+import { validateBatch } from '../middleware/vBatch.middleware.js'
+// validate college data
+import {validateCollege} from '../middleware/vCollege.middleware.js'
+// validate company data
+import { validateCompany } from '../middleware/vCompany.middleware.js'
+// validate company id
+import {validateCompId} from '../middleware/vCompId.middleware.js'
+// validate interview data
+import {validateInterview} from '../middleware/vInterview.middleware.js'
 
 const router = express.Router()
 const adminController = new AdminController()
+
 router.get('/department', validateAdmin, (req, res) => {
     adminController.getDepartment(req,res)
 })
@@ -46,35 +55,35 @@ router.post('/editemployee', validateAdmin, empEditValidateRequest, (req, res) =
 router.get('/deleteemployee', validateAdmin, validateEmp, (req, res) => {
     adminController.deleteEmployee(req,res)
 })
-router.get('/toggleRights', validateAdmin, validateEmp, (req, res) => {
-    adminController.toggleRights(req,res)
+router.get('/batch', validateAdmin, (req, res) => {
+    adminController.getBatch(req,res)
 })
-router.get('/performance', validateAdmin, validateEmp, (req, res) => {
-    adminController.getPerformance(req,res)
+router.post('/batch', validateAdmin, validateBatch, (req, res) => {
+    adminController.postBatch(req,res)
 })
-router.post('/performance',validateAdmin, (req, res) => {
-    adminController.postPerformance(req,res)
+router.get('/college', validateAdmin, (req, res) => {
+    adminController.getCollege(req,res)
 })
-router.get('/performances',validateAdmin, validateEmp, (req, res) => {
-    adminController.viewPerformances(req,res)
+router.post('/college', validateAdmin, validateCollege, (req, res) => {
+    adminController.postCollege(req,res)
 })
-router.get('/editperformance',validateAdmin, validatePerfId, (req, res) => {
-    adminController.getEditPerformance(req,res)
+router.get('/company', validateAdmin, (req, res) => {
+    adminController.getCompany(req,res)
 })
-router.post('/editperformance',validateAdmin, validatePerfId,(req, res) => {
-    adminController.postEditPerformance(req,res)
+router.post('/company', validateAdmin, validateCompany, (req, res) => {
+    adminController.postCompany(req,res)
 })
-router.get('/delperformance', validateAdmin, validatePerfId, (req, res) => {
-    adminController.deletePerformance(req, res)
+router.get('/companies', validateAdmin, (req, res) => {
+    adminController.getCompanies(req,res)
 })
-router.get('/feedback', validateAdmin, (req, res) => {
-    adminController.getFeedback(req,res)
+router.get('/interview', validateAdmin, validateCompId,(req, res) => {
+    adminController.getInterview(req,res)
 })
-router.get('/allocparticipation', validateAdmin, (req, res) => {
-    adminController.getAllocParticipation(req, res)
+router.post('/interview', validateAdmin, validateInterview,(req, res) => {
+    adminController.postInterview(req,res)
 })
-router.post('/allocparticipation', validateAdmin, (req, res)=>{
-    adminController.postAllocParticipation(req, res)
+router.get('/interviews', validateAdmin, validateCompId,(req, res) => {
+    adminController.getInterviews(req,res)
 })
 // invalid page route for /admin
 router.use('/', (req, res) => {

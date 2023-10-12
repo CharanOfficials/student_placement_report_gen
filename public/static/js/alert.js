@@ -85,6 +85,84 @@ $('#edit_emp_form').submit(function (event) {
     }
   });
 });
+// Add bctch
+$('#batch_form').submit(function (event) {
+  event.preventDefault();
+  $.ajax({
+      type: 'POST',
+      url: '/admin/batch',
+      data: $(this).serialize(), // To send form data
+      success: function (response) {
+      if (response.success) {
+        alert(response.message);
+        window.location.href = '/admin/batch';
+      }
+    },
+      error: function (xhr, status, error) {
+        let response = JSON.parse(xhr.responseText); 
+        alert(response.error);
+
+    }
+  });
+});
+// Add college
+$('#college_form').submit(function (event) {
+  event.preventDefault();
+  $.ajax({
+      type: 'POST',
+      url: '/admin/college',
+      data: $(this).serialize(), // To send form data
+      success: function (response) {
+      if (response.success) {
+        alert(response.message);
+        window.location.href = '/admin/college';
+      }
+    },
+      error: function (xhr, status, error) {
+        let response = JSON.parse(xhr.responseText); 
+        alert(response.error);
+
+    }
+  });
+});
+$('#company_form').submit(function (event) {
+  event.preventDefault();
+  $.ajax({
+      type: 'POST',
+      url: '/admin/company',
+      data: $(this).serialize(), // To send form data
+      success: function (response) {
+      if (response.success) {
+        alert(response.message);
+        window.location.href = '/admin/company';
+      }
+    },
+      error: function (xhr, status, error) {
+        let response = JSON.parse(xhr.responseText); 
+        alert(response.error);
+
+    }
+  });
+});
+$('#interview_form').submit(function (event) {
+  event.preventDefault();
+  $.ajax({
+      type: 'POST',
+      url: '/admin/interview',
+      data: $(this).serialize(), // To send form data
+      success: function (response) {
+      if (response.success) {
+        alert(response.message);
+        window.location.href = '/admin/companies';
+      }
+    },
+      error: function (xhr, status, error) {
+        let response = JSON.parse(xhr.responseText); 
+        alert(response.error);
+
+    }
+  });
+});
 // singn up page real time departments and positions loading
 $('#dept').change(function() {
   const selectedDepartmentId = $(this).val();

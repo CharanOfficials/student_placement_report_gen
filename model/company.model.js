@@ -20,7 +20,12 @@ const companySchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref:'interview' 
     }],
-    createdBy: {
+    status: {
+        type: String,
+        enum: ["active", "inactive"],
+        required:true
+    },
+    posted_by: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
         required:true

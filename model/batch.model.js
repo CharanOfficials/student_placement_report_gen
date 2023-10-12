@@ -13,7 +13,7 @@ const batchSchema = mongoose.Schema({
         enum: ["active", "inactive"],
         required:true
     },
-    user: {
+    posted_by: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
         required:true

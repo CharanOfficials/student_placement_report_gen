@@ -1,7 +1,6 @@
 import express from 'express'
 import UserController from '../controller/user.controller.js'
 import adminRouter from './admin.router.js'
-import employeeRouter from './employee.router.js'
 import {loginValidateRequest} from '../middleware/vSignIn.middleware.js'
 import { signUpValidateRequest } from '../middleware/vSignUp.middleware.js'
 import { checkData } from '../middleware/vGetSignUp.middleware.js'
@@ -32,7 +31,6 @@ router.get('/logout', (req, res) =>{
     userController.postLogout(req, res)
 })
 router.use('/admin', adminRouter)
-router.use('/employee', employeeRouter)
 // home page
 router.get('/', (req, res) => {
     res.render('home')

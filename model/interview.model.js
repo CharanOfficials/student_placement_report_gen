@@ -26,9 +26,14 @@ const interviewSchema = mongoose.Schema({
         ref: 'interviewRounds',
         required:true
     }],
-    createdBy: {
+    posted_by: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
+        required:true
+    },
+    status: {
+        type: String,
+        enum: ["active", "inactive"],
         required:true
     }
 }, {

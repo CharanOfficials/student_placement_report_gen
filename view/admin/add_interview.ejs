@@ -1,0 +1,32 @@
+<main>
+    </div>
+    <div class="pos-outer-container">
+        <form id="interview_form" action="/admin/interview" method="POST">
+            <div class="inner-container">
+                <div>
+                    <input type="hidden" name="company" value="<%=comp_id%>">
+                    <div>
+                        <label for="profile_name">Profile Name</label>
+                        <input type="text" name="profile_name"  autofocus>
+                    </div>
+                    <div>
+                        <label for="profile_desc">Profile Description</label>
+                        <textarea name="profile_desc" cols="30" rows="7"></textarea>
+                        <!-- <input type="text" name="profile_desc" > -->
+                    </div>
+                    <div>
+                        <label for="interview_date">Contact Person Name</label>
+                        <input type="date" name="interview_date" value="cu">
+                    </div>
+                    <div>
+                        <label for="status">Status</label>
+                        <select name="status" id="status">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select required>
+                    </div>
+                    <div><button>Submit</button></div>
+                </div>
+        </form>
+    </div>
+</main>

@@ -1,0 +1,30 @@
+<main>
+    </div>
+    <div class="pos-outer-container">
+        <form id="college_form" action="/admin/college" method="POST">
+            <div class="inner-container">
+                <div>
+                    <div>
+                        <label for="college_name">College Name</label>
+                        <input type="text" name="college_name"  autofocus>
+                    </div>
+                    <div>
+                        <label for="address">College Address</label>
+                        <input type="text" name="address" minlength="5" maxlength="50">
+                    </div>
+                    <div>
+                        <label for="contact">Contact No.</label>
+                        <input type="text" name="contact" minlength="10" maxlength="12">
+                    </div>
+                    <div>
+                        <label for="status">Status</label>
+                        <select name="status" id="status">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select required>
+                    </div>
+                    <div><button>Submit</button></div>
+                </div>
+        </form>
+    </div>
+</main>

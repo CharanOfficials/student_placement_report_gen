@@ -27,6 +27,13 @@ const validateAdmin = (req, res, next) => {
         // If valid call next
         next()
     } catch (err) {
+        if (err.name === 'TokenExpiredError') {
+            return res.status(401)
+                .send(`<script>
+                alert('Unauthorized request are not allowed')
+                    window.location.href = '/signIn'
+                    </script>`)
+        }
         // else return error
         console.log('JWT middleware:',err)
         return res.status(401)
