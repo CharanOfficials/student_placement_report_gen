@@ -222,6 +222,44 @@ $('#sub_allocation').on('click', function (e) {
   });
 }
 });
+$('#register_swap').on('click', function (e) {
+  e.preventDefault();
+  const $this = $(this);
+  const link = $this.attr('href');
+  const text = $this.attr('data-state');
+  let newLink = link.split('?');
+
+  fetch(link, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then((data) => {
+    console.log("Done");
+    if (text === "true") {
+      newLink = "/admin/regStudent?" + newLink[1];
+      $this.html("false");
+      $this.attr('data-state', "false");
+    } else {
+      newLink = "/admin/deRegStudent?" + newLink[1];
+      $this.html("true");
+      $this.attr('data-state', "true");
+    }
+    $this.attr('href', newLink);
+  })
+  .catch((error) => {
+    console.error('Fetch error:', error);
+    alert("Error occurred");
+  });
+});
+
 // On dropdoen change in peformance participation page
 let $dropdown = $('#dropdown');
 let $multiselect = $('#multiselect');
