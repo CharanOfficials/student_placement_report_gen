@@ -19,6 +19,8 @@ import { validateCompany } from '../middleware/vCompany.middleware.js'
 import {validateCompId} from '../middleware/vCompId.middleware.js'
 // validate interview data
 import {validateInterview} from '../middleware/vInterview.middleware.js'
+// validate student data
+import {validateStudent} from '../middleware/vStudent.middleware.js'
 
 const router = express.Router()
 const adminController = new AdminController()
@@ -87,6 +89,18 @@ router.get('/interviews', validateAdmin, validateCompId,(req, res) => {
 })
 router.get('/student', validateAdmin, (req, res) => {
     adminController.getStudent(req,res)
+})
+router.post('/student', validateAdmin, validateStudent, (req, res) => {
+    adminController.postStudent(req,res)
+})
+router.get('/students', validateAdmin, (req, res) => {
+    adminController.getStudents(req,res)
+})
+router.get('/regStudent', validateAdmin, (req, res) => {
+    adminController.registerStudent(req,res)
+})
+router.get('/deRegStudent', validateAdmin, (req, res) => {
+    adminController.deRegStudent(req,res)
 })
 // invalid page route for /admin
 router.use('/', (req, res) => {

@@ -5,6 +5,8 @@ import Batch from '../model/batch.model.js'
 import College from '../model/college.model.js'
 import Company from '../model/company.model.js'
 import Interview from '../model/interview.model.js'
+import Student from '../model/student.model.js'
+import SIMapper from '../model/studentInterviewMapper.model.js'
 
 export default class AdminController{
     // To retrive the department page
@@ -430,6 +432,156 @@ export default class AdminController{
             alert("Internal server error")
             window.location.href = '/admin/companies'
             </script>`)
+        }
+    }
+    async postStudent(req, res) {
+        try {
+            const { batch, college, name, contact, placement_status, status, dsa, webD, react } = req.body
+            const subjectsMarks = [{name:'dsa', scores:dsa}, {name:'webD',scores:webD}, {name:'react',scores:react}]
+            const studentExist = await Student.findOne({contact:contact})
+            if (!studentExist) {
+                const student = await Student.create({
+                    batch: batch,
+                    name: name,
+                    college: college,
+                    contact: contact,
+                    placement_status: placement_status,
+                    status: status,
+                    added_by: req.userID
+                })
+                student.subjects.push(subjectsMarks[0])
+                student.subjects.push(subjectsMarks[1])
+                student.subjects.push(subjectsMarks[2])
+                await student.save()
+                console.log(student)
+                return res.status(200).json({success:true, message:"Student created successfully."})
+            }
+            return res.status(400).json({error:"Duplicate entry detected."})
+        } catch (err) {
+            console.log("Error while adding the Student", err)
+            res.status(500).json({error: "Internal server error."})
+        }
+    }
+    async getStudents(req, res) {
+        try {
+            let interview_id = req.query.inter_id
+            interview_id = interview_id.trim()
+            if (interview_id.length < 24) {
+                return res.status(404).send(`<script>
+                alert("Invalid Interview")
+                window.location.href = '/admin/companies'
+                </script>`)
+            }
+            const interviewExist = await Interview.findById(interview_id)
+            if (!interviewExist) {
+                return res.status(404).send(`<script>
+                alert("Invalid Interview")
+                window.location.href = '/admin/companies'
+                </script>`)
+            }
+            const students = await Student.find().populate('college', 'name -_id').populate('batch', 'batchName -_id').populate('subjects')
+            let studentCollection = students
+            studentCollection.forEach(student => {
+                const result = student.interviews.includes(interview_id)
+                student.registered = result
+            })
+            return res.render('./admin/view_students', {
+                menuPartial: '_admin_menu',
+                students: students,
+                title: 'View Students',
+                interview_id:interview_id
+            })
+        } catch (err) {
+            console.error("Error occured in getStudents", err)
+            return res.status(500).send(`<script>
+            alert("Internal server error")
+            window.location.href = '/admin/companies'
+            </script>`)
+        }
+    }
+    async registerStudent(req, res) {
+        try {
+            // console.log(req.query)
+            let student = req.query.stud_id
+            let interv_id = req.query.interv_id
+            student = student.trim()
+            interv_id = interv_id.trim()
+            if (student.length < 24 || interv_id.length < 24) {
+                return res.status(404).send(`<script>
+                alert("Invalid Student/ Interview")
+                window.location.href = '/admin/companies'
+                </script>`)
+            }
+            const studentExist = await Student.findById(student)
+            const interviewExist = await Interview.findById(interv_id)
+            if (!studentExist || !interviewExist) {
+                return res.status(404).send(`<script>
+                alert("Invalid Student/ Interview")
+                window.location.href = '/admin/companies'
+                </script>`)
+            }
+            const mapperExist = await SIMapper.findOne({
+                interview: interv_id,
+                student:student
+            })
+            if (mapperExist) {
+                return res.status(400).json("Duplicate entry not allowed")
+            }
+            studentExist.interviews.push(interv_id)
+            await studentExist.save()
+            interviewExist.students.push(student)
+            await interviewExist.save()
+            const mapperResult = await SIMapper.create({
+                interview: interv_id,
+                student:student
+            })
+            return res.status(200).json({success:true, message:"Registered successfully"})
+        } catch (err) {
+            console.error("Error occured in registerStudent", err)
+            return res.status(500).json({error:"Internal Server error"})
+        }
+    }
+    async deRegStudent(req, res) {
+        try {
+            let student = req.query.stud_id
+            let interv_id = req.query.interv_id
+            student = student.trim()
+            interv_id = interv_id.trim()
+            if (student.length < 24 || interv_id.length < 24) {
+                return res.status(404).send(`<script>
+                alert("Invalid Student/ Interview")
+                window.location.href = '/admin/companies'
+                </script>`)
+            }
+            const mapperExist = await SIMapper.findOne({
+                interview: interv_id,
+                student:student
+            })
+            if (!mapperExist) {
+                return res.status(400).json("No entry found")
+            }
+            const studentExist = await Student.findById(student)
+            const interviewExist = await Interview.findById(interv_id)
+            if (!studentExist || !interviewExist) {
+                return res.status(404).send(`<script>
+                alert("Invalid Student/ Interview")
+                window.location.href = '/admin/companies'
+                </script>`)
+            }
+            studentExist.interviews.pull(interv_id)
+            await studentExist.save()
+            interviewExist.students.pull(student)
+            await interviewExist.save()
+            const mapperResult = await SIMapper.findOneAndDelete({
+                interview: interv_id,
+                student: student
+            })
+            if (mapperResult) {
+                return res.status(200).json({ success: true, message: "De-registered successfully" })
+            }
+        } catch (err) {
+            console.error("Error occured in deregisterStudent", err)
+            return res.status(500).json({ error: "Internal Server error" })
         }
     }
 }

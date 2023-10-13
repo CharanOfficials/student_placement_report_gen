@@ -16,6 +16,7 @@ const studentSchema = mongoose.Schema({
     },
     contact: {
         type: Number,
+        unique:true,
         minlength: 10,
         maxlength: 12,
         required:true
@@ -23,13 +24,12 @@ const studentSchema = mongoose.Schema({
     subjects: [{
         name: {
             type: String,
-            required:true
+            enum:['dsa', 'webD', 'react']
         },
         scores: {
             type: Number,
-            required: true,
-            minlength: 2,
-            maxlength:2
+            min: 70,
+            max: 100
         }
     }],
     // subjectScores: [{

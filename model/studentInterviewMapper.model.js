@@ -13,7 +13,8 @@ const studentInterviewMapperSchema = mongoose.Schema({
     status: {
         type: String,
         enum: ["pass", "failed", "on_hold", "not_attempted"],
-        required:true
+        default:"not_attempted",
+        required: true
     }
 }, {
     timestamps:true

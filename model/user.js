@@ -28,7 +28,7 @@ const userSchema = mongoose.Schema({
         required:true
     },
     contact_no: {
-        type: String,
+        type: Number,
         required: true,
         minlength: 10,
         maxlength: 12,

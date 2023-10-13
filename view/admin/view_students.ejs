@@ -1,0 +1,60 @@
+<main>
+    <div custom_table_outer_container>
+        <table class="table caption-top table-striped table-bordered custom_table">
+            <!-- <caption>List of users</caption> -->
+            <thead>
+                <tr>
+                    <th id="custom_col" scope="col">Sr. No.</th>
+                    <th id="custom_col" scope="col">Batch Name</th>
+                    <th id="custom_col" scope="col">College</th>
+                    <th id="custom_col" scope="col">Student name</th>
+                    <th id="custom_col" scope="col">Contact</th>
+                    <th id="custom_col" scope="col">DSA Marks</th>
+                    <th id="custom_col" scope="col">WebD Marks</th>
+                    <th id="custom_col" scope="col">React Marks</th>
+                    <th id="custom_col" scope="col">Placement Status</th>
+                    <th id="custom_col" scope="col">No. of Interviews</th>
+                    <th id="custom_col" scope="col">Registered</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% students.forEach((s, index)=> { %>
+                    <tr>
+                        <th id="custom_col" scope="row"><%=index+1%></th>
+                        <td id="custom_col">
+                            <%= s.batch.batchName%>
+                        </td>
+                        <td id="custom_col" >
+                            <%= s.college.name %>
+                        </td>
+                        <td id="custom_col" >
+                            <%= s.name %>
+                        </td>
+                        <td id="custom_col">
+                            <%= s.contact %>
+                        </td>
+                        <td id="custom_col" >
+                            <%= s.subjects[0].scores %>
+                        </td>
+                        <td id="custom_col" >
+                            <%= s.subjects[1].scores %>
+                        </td>
+                        <td id="custom_col">
+                            <%= s.subjects[2].scores %>
+                        </td>
+                        <td id="custom_col">
+                            <%= s.placement_status %>
+                        </td>
+                        <td id="custom_col">
+                            <%= s.interviews.length %>
+                        </td>
+                        <td id="custom_col">
+                            <a href="/admin/regStudent?stud_id=<%=s._id%>&interv_id=<%=interview_id%>">
+                                <%= s.registered %>
+                            </a>
+                        </td>
+                    <% }) %>
+            </tbody>
+        </table>
+    </div>
+</main>
