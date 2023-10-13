@@ -1,0 +1,71 @@
+<main>
+    </div>
+    <div class="outer-container">
+        <form id="add_stud_form" action="/employee/create" method="POST">
+            <div class="inner-container">
+                <div>
+                    <div>
+                        <label for="batch">Batch Name</label>
+                        <select name="batch">
+                            <%batch.forEach((b)=>{%> 
+                                <option value="<%=b._id%>"><%= b.batchName %></option>
+                            <%})%>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="college">College Name</label>
+                        <select name="college">
+                            <%college.forEach((c)=>{%>
+                                <option value="<%=c._id%>">
+                                    <%= c.name %>
+                                </option>
+                                <%})%>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label for="name">Student Name</label>
+                        <input type="text" name="name" id="name" required>
+                    </div>
+                    <div>
+                        <label for="contact">Contact No.</label>
+                        <input type="number" name="contact" id="contact" maxlength="12" minlength="10" required>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label for="placement_status">Placement Status</label>
+                        <select name="placement_status">
+                            <option value="placed">Placed</option>
+                            <option value="not_placed">Not Placed</option>
+                        </select required>
+                    </div>
+                    <div>
+                        <label for="status">Status</label>
+                        <select name="status" id="status">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="divider"><label>Marks</label></div>
+                <div>
+                    <div>
+                        <label for="dsa">DSA %</label>
+                        <input type="number" name="dsa" minlength="2" maxlength="2" required>
+                    </div>
+                    <div>
+                        <label for="webD">Web Development %</label>
+                        <input type="number" name="webD" minlength="2" maxlength="2" required>
+                    </div>
+                    <div>
+                        <label for="react">React %</label>
+                        <input type="number" name="react" minlength="2" maxlength="2" required>
+                    </div>
+                </div>
+                <div><button>Submit</button></div>
+            </div>
+        </form>
+    </div>
+</main>

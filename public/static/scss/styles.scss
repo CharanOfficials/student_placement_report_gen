@@ -854,3 +854,11 @@ textarea::-webkit-scrollbar {
         text-decoration: none;
     }
 }
+.divider{
+    // border-bottom: 2px solid $primary;
+    margin: 3rem 0 1rem 0;
+    label{
+        border-bottom: 2px solid $primary;
+        padding: 0.2rem 2rem ;
+    }
+}

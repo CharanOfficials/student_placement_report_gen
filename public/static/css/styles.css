@@ -728,3 +728,11 @@ textarea::-webkit-scrollbar {
   padding: 0.5rem;
   text-decoration: none;
 }
+
+.divider {
+  margin: 3rem 0 1rem 0;
+}
+.divider label {
+  border-bottom: 2px solid #2196F3;
+  padding: 0.2rem 2rem;
+}

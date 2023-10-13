@@ -5,6 +5,7 @@ import Batch from '../model/batch.model.js'
 import College from '../model/college.model.js'
 import Company from '../model/company.model.js'
 import Interview from '../model/interview.model.js'
+
 export default class AdminController{
     // To retrive the department page
     getDepartment(req, res) {
@@ -409,6 +410,24 @@ export default class AdminController{
         } catch (err) {
             console.log("Error while getting the Interviews", err)
             return res.status(500).send(`<script>alert("Internal server error.")
+            window.location.href = '/admin/companies'
+            </script>`)
+        }
+    }
+    async getStudent(req, res) {
+        try {
+            const batch = await Batch.find()
+            const college = await College.find()
+            return res.render('./admin/add_student', {
+                title: 'Add Student',
+                menuPartial: '_admin_menu',
+                batch: batch,
+                college:college
+            })
+        } catch (err) {
+            console.error("Error occured in getStudent", err)
+            return res.status(500).send(`<script>
+            alert("Internal server error")
             window.location.href = '/admin/companies'
             </script>`)
         }

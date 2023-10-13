@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const studentSchema = mongoose.Schema({
-    batchno: {
+    batch: {
         type: mongoose.Schema.Types.ObjectId,
         ref:'batch',
         required: true
@@ -20,10 +20,27 @@ const studentSchema = mongoose.Schema({
         maxlength: 12,
         required:true
     },
-    subjectScores: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'subjectScores'
+    subjects: [{
+        name: {
+            type: String,
+            required:true
+        },
+        scores: {
+            type: Number,
+            required: true,
+            minlength: 2,
+            maxlength:2
+        }
     }],
+    // subjectScores: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'subjectScores'
+    // }],
+    placement_status: {
+        type: String,
+        enum: ["placed", "not_placed"],
+        required:true
+    },
     status: {
         type: String,
         enum: ['active', 'suspended', 'inactive'],
@@ -32,15 +49,19 @@ const studentSchema = mongoose.Schema({
     interviews: [{
         type: mongoose.Schema.Types.ObjectId,
         ref:'interview'
-    }]
-
+    }],
+    added_by: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+        required:true
+    }
 },{
     timestamps:true
 })
 
-studentSchema.path('subjects').validate(function (value) {
-    return value.length <= 3;
-}, 'Subjects array cannot exceed a length of 3.');
+// studentSchema.path('subjects').validate(function (value) {
+//     return value.length <= 3;
+// }, 'Subjects array cannot exceed a length of 3.');
 
 const Student = mongoose.model('student', studentSchema)
 export default Student

@@ -85,6 +85,9 @@ router.post('/interview', validateAdmin, validateInterview,(req, res) => {
 router.get('/interviews', validateAdmin, validateCompId,(req, res) => {
     adminController.getInterviews(req,res)
 })
+router.get('/student', validateAdmin, (req, res) => {
+    adminController.getStudent(req,res)
+})
 // invalid page route for /admin
 router.use('/', (req, res) => {
     res.status(404);
