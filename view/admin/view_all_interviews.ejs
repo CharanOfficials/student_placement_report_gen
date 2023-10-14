@@ -1,0 +1,52 @@
+<main>
+    <div custom_table_outer_container>
+        <table class="table caption-top table-striped table-bordered custom_table">
+            <!-- <caption>List of users</caption> -->
+            <thead>
+                <tr>
+                    <th id="custom_col" scope="col">Sr. No.</th>
+                    <th id="custom_col" scope="col">Company Name</th>
+                    <th id="custom_col" scope="col">Profile Name</th>
+                    <th id="custom_col" scope="col">Profile Description</th>
+                    <th id="custom_col" scope="col">Interview Date</th>
+                    <th id="custom_col" scope="col">Company Contact Person</th>
+                    <th id="custom_col" scope="col">Contact</th>
+                    <th id="custom_col" scope="col">No. of registered Students </th>
+                    <th id="custom_col" scope="col">Add Status </th>
+                </tr>
+            </thead>
+            <tbody>
+                <% interviews.forEach((i, index)=> { %>
+                    <tr>
+                        <th id="custom_col" scope="row">
+                            <%=index+1%>
+                        </th>
+                        <td id="custom_col">
+                            <%= i.company.name%>
+                        </td>
+                        <td id="custom_col">
+                            <%= i.profileName %>
+                        </td>
+                        <td id="custom_col">
+                            <%= i.profileDescription %>
+                        </td>
+                        <td id="custom_col">
+                            <%= i.date.toLocaleDateString() %>
+                        </td>
+                        <td id="custom_col">
+                            <%= i.company.contactPersonName %>
+                        </td>
+                        <td id="custom_col">
+                            <%= i.company.contactPersonMobile %>
+                        </td>
+                        <td id="custom_col">
+                            <%= i.students.length %>
+                        </td>
+                        <td id="custom_col">
+                            <a href="/admin/studentsresult?interv_id=<%=i._id%>"><i class="fa-solid fa-plus"></i></a>
+                        </td>
+                    <% }) %>
+            </tbody>
+        </table>
+    </div>
+</main>

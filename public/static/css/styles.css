@@ -3,6 +3,10 @@
   box-sizing: border-box;
 }
 
+marquee {
+  color: #2196F3;
+}
+
 button.navbar-toggler {
   color: #d8e0e6;
 }
@@ -37,6 +41,23 @@ main::-webkit-scrollbar {
 .custom_table {
   min-width: 94vw;
   align-self: center;
+}
+.custom_table #interv_status_update {
+  background-color: transparent;
+  border: none;
+  border: #2196F3 1px solid;
+  color: #2196F3;
+  text-align: center;
+  font-size: 1rem;
+  padding: 0.3rem;
+}
+.custom_table select {
+  background-color: transparent;
+  color: #2196F3;
+  border: none;
+  outline: none;
+  border-bottom: #2196F3 1px solid;
+  font-size: 1rem;
 }
 
 #custom_col {

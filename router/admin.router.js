@@ -84,8 +84,8 @@ router.get('/interview', validateAdmin, validateCompId,(req, res) => {
 router.post('/interview', validateAdmin, validateInterview,(req, res) => {
     adminController.postInterview(req,res)
 })
-router.get('/interviews', validateAdmin, validateCompId,(req, res) => {
-    adminController.getInterviews(req,res)
+router.get('/compinterviews', validateAdmin, validateCompId,(req, res) => {
+    adminController.getCompanyInterviews(req,res)
 })
 router.get('/student', validateAdmin, (req, res) => {
     adminController.getStudent(req,res)
@@ -101,6 +101,18 @@ router.get('/regStudent', validateAdmin, (req, res) => {
 })
 router.get('/deRegStudent', validateAdmin, (req, res) => {
     adminController.deRegStudent(req,res)
+})
+router.get('/studinterviews', validateAdmin, (req, res) => {
+    adminController.getStudentInterviews(req,res)
+})
+router.get('/interviewresult', validateAdmin, (req, res) => {
+    adminController.getResInterviews(req,res)
+})
+router.get('/studentsresult', validateAdmin, (req, res) => {
+    adminController.getStudentInterviewResults(req,res)
+})
+router.post('/submitstudentsresult', validateAdmin, (req, res) => {
+    adminController.postStudentInterviewResults(req,res)
 })
 // invalid page route for /admin
 router.use('/', (req, res) => {

@@ -16,6 +16,7 @@
                     <th id="custom_col" scope="col">No. of Interviews</th>
                     <th id="custom_col" scope="col">Registered</th>
                 </tr>
+                <tr><marquee behavior="" direction="">Refresh page to update interviews count</marquee></tr>
             </thead>
             <tbody>
                 <% students.forEach((s, index)=> { %>
@@ -45,9 +46,15 @@
                         <td id="custom_col">
                             <%= s.placement_status %>
                         </td>
-                        <td id="custom_col">
-                            <%= s.interviews.length %>
-                        </td>
+                        <%if(s.interviews.length > 0){%>
+                            <td id="custom_col" class="interviews">
+                                <a href="/admin/studinterviews?stud_id=<%=s._id%>"><%= s.interviews.length %></a>
+                            </td>
+                        <%}else{%>
+                            <td id="custom_col" class="interviews">
+                                <%= s.interviews.length %>
+                            </td>
+                        <%}%>
                         <%if(s.registered){%>
                             <td id="custom_col">
                                 <a id="register_swap" data-state="true" href="/admin/deRegStudent?stud_id=<%=s._id%>&interv_id=<%=interview_id%>">

@@ -222,27 +222,27 @@ $('#sub_allocation').on('click', function (e) {
   });
 }
 });
-$('#register_swap').on('click', function (e) {
+// Flip interview registartion status
+$('#register_swap').on('click', async function (e) {
   e.preventDefault();
   const $this = $(this);
   const link = $this.attr('href');
   const text = $this.attr('data-state');
   let newLink = link.split('?');
 
-  fetch(link, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-  .then((response) => {
+  try {
+    const response = await fetch(link, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-    return response.json();
-  })
-  .then((data) => {
-    console.log("Done");
+
+    const data = await response.json();
     if (text === "true") {
       newLink = "/admin/regStudent?" + newLink[1];
       $this.html("false");
@@ -253,11 +253,37 @@ $('#register_swap').on('click', function (e) {
       $this.attr('data-state', "true");
     }
     $this.attr('href', newLink);
-  })
-  .catch((error) => {
-    console.error('Fetch error:', error);
-    alert("Error occurred");
-  });
+  } catch (error) {
+    alert("Error Occured. Kindly check interview date.");
+  }
+});
+// Update name of the button on status change
+$('#interv_status').change(function() {
+  $('#interv_status_update').html('Save')
+});
+
+$('#interv_status_update').on('click', async function (e) {
+  e.preventDefault();
+  const $this = $(this);
+  const link = $this.attr('href');
+  const status = $('#interv_status').val();
+  let newLink = link + `&status=${status}`;
+  try {
+    const response = await fetch(newLink, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    $('#interv_status_update').html('Saved')
+  } catch (error) {
+    alert("Error Occured. Kindly contact admin.");
+  }
 });
 
 // On dropdoen change in peformance participation page

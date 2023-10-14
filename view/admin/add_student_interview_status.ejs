@@ -1,0 +1,67 @@
+<main>
+    <div custom_table_outer_container>
+        <table class="table caption-top table-striped table-bordered custom_table">
+            <!-- <caption>List of users</caption> -->
+            <thead>
+                <tr>
+                    <th id="custom_col" scope="col">Sr. No.</th>
+                    <th id="custom_col" scope="col">Batch Name</th>
+                    <th id="custom_col" scope="col">College</th>
+                    <th id="custom_col" scope="col">Student name</th>
+                    <th id="custom_col" scope="col">Contact</th>
+                    <th id="custom_col" scope="col">DSA Marks</th>
+                    <th id="custom_col" scope="col">WebD Marks</th>
+                    <th id="custom_col" scope="col">React Marks</th>
+                    <th id="custom_col" scope="col">Placement Status</th>
+                    <th id="custom_col" scope="col">No. of Interviews</th>
+                    <th id="custom_col" scope="col">Select Status</th>
+                    <th id="custom_col" scope="col">Update</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% students.forEach((s, index)=> { %>
+                    <tr>
+                        <th id="custom_col" scope="row"><%=index+1%></th>
+                        <td id="custom_col">
+                            <%= s.student.batch.batchName%>
+                        </td>
+                        <td id="custom_col" >
+                            <%= s.student.college.name %>
+                        </td>
+                        <td id="custom_col" >
+                            <%= s.student.name %>
+                        </td>
+                        <td id="custom_col">
+                            <%= s.student.contact %>
+                        </td>
+                        <td id="custom_col" >
+                            <%= s.student.subjects[0].scores %>
+                        </td>
+                        <td id="custom_col" >
+                            <%= s.student.subjects[1].scores %>
+                        </td>
+                        <td id="custom_col">
+                            <%= s.student.subjects[2].scores %>
+                        </td>
+                        <td id="custom_col">
+                            <%= s.student.placement_status %>
+                        </td>
+                        <td id="custom_col">
+                            <%= s.student.interviews.length %>
+                        </td>
+                        <td id="custom_col">
+                            <select name="status" id="interv_status">
+                                <option value="pass" <%= s.status === "pass" ? 'selected' : '' %> >Pass</option>
+                                <option value="failed" <%= s.status === "failed" ? 'selected' : '' %>>Failed</option>
+                                <option value="on_hold" <%= s.status === "on_hold" ? 'selected' : '' %>>On Hold</option>
+                                <option value="not_attempted" <%= s.status === "not_attempted" ? 'selected' : '' %>>Not Attempted</option>
+                            </select required>
+                        </td>
+                        <td id="custom_col">
+                            <a id="interv_status_update" href="/admin/submitstudentsresult?stud_id=<%=s.student._id%>&interv_id=<%=s.interview%>">Save</a>
+                        </td>
+                    <% }) %>
+            </tbody>
+        </table>
+    </div>
+</main>

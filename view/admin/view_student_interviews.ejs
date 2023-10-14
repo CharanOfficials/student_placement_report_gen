@@ -1,0 +1,44 @@
+<main>
+    <div custom_table_outer_container>
+        <table class="table caption-top table-striped table-bordered custom_table">
+            <!-- <caption>List of users</caption> -->
+            <thead>
+                <tr>
+                    <th id="custom_col" scope="col">Sr. No.</th>
+                    <th id="custom_col" scope="col">Student Name</th>
+                    <th id="custom_col" scope="col">Company Name</th>
+                    <th id="custom_col" scope="col">Profile Name</th>
+                    <th id="custom_col" scope="col">Profile Description</th>
+                    <th id="custom_col" scope="col">Interview Date</th>
+                    <th id="custom_col" scope="col">Status </th>
+                </tr>
+            </thead>
+            <tbody>
+                <% interviews.forEach((i, index)=> { %>
+                    <tr>
+                        <th id="custom_col" scope="row">
+                            <%=index+1%>
+                        </th>
+                        <td id="custom_col">
+                            <%= i.student.name%>
+                        </td>
+                        <td id="custom_col">
+                            <%= i.interview.company.name%>
+                        </td>
+                        <td id="custom_col">
+                            <%= i.interview.profileName %>
+                        </td>
+                        <td id="custom_col">
+                            <%= i.interview.profileDescription %>
+                        </td>
+                        <td id="custom_col">
+                            <%= i.interview.date.toLocaleDateString() %>
+                        </td>
+                        <td id="custom_col">
+                            <%= i.status %>
+                        </td>
+                    <%})%>
+            </tbody>
+        </table>
+    </div>
+</main>

@@ -254,14 +254,14 @@ export default class AdminController{
             res.status(500).json({error: "Internal server error."})
         }
     }
-    // get  batch
+    // get  college
     async getCollege(req, res) {
         return res.render('./admin/add_college', {
             title: "Add College",
             menuPartial: "_admin_menu",
         })
     }
-    // add batch
+    // add college
     async postCollege(req, res) {
         const {college_name, address, contact, status} = req.body
         try {
@@ -289,14 +289,14 @@ export default class AdminController{
             res.status(500).json({error: "Internal server error."})
         }
     }
-    // get  batch
+    // get company
     async getCompany(req, res) {
         return res.render('./admin/add_company', {
             title: "Add Company",
             menuPartial: "_admin_menu",
         })
     }
-    // add batch
+    // add company
     async postCompany(req, res) {
         const {company_name, company_address, contact_person_name, contact, status} = req.body
         try {
@@ -325,6 +325,7 @@ export default class AdminController{
             res.status(500).json({error: "Internal server error."})
         }
     }
+    // get all the companies
     async getCompanies(req, res) {
         try {
             const companies = await Company.find().populate('posted_by', 'first_name last_name -_id')
@@ -346,6 +347,7 @@ export default class AdminController{
             </script>`)
         }
     }
+    // get company specific interview
     async getInterview(req, res) {
         const {comp_id} = req.query
         return res.render('./admin/add_interview', {
@@ -354,6 +356,7 @@ export default class AdminController{
             comp_id:comp_id
         })
     }
+    // add company specific interview
     async postInterview(req, res) {
         const { company, profile_name, profile_desc, interview_date, status } = req.body
         
@@ -388,7 +391,8 @@ export default class AdminController{
             res.status(500).json({error: "Internal server error."})
         }
     }
-    async getInterviews(req, res) {
+    // get all the interviews of a specific company
+    async getCompanyInterviews(req, res) {
         const comp_id = req.query.comp_id;
 
         try {
@@ -416,6 +420,39 @@ export default class AdminController{
             </script>`)
         }
     }
+    // get all the student specific interviews
+    async getStudentInterviews(req, res) {
+        try {
+            let stud_id = req.query.stud_id
+            stud_id = stud_id.trim()
+            if (stud_id.length < 24) {
+                return res.status(404).send(`<script>
+                alert("Invalid Student")
+                window.location.href = '/admin/companies'
+                </script>`)
+            }
+            const entryExist = await SIMapper.findOne({ student: stud_id })
+            if (!entryExist) {
+                return res.status(404).send(`<script>
+                alert("No Interview available")
+                window.history.back()
+                </script>`)
+            }
+            const interviewsList = await SIMapper.find({ student: stud_id }).
+                populate({ path: 'interview', select: 'profileName profileDescription date -_id', populate: { path: 'company', select: 'name -_id' } }).populate({path:'student', select:'name -_id'});
+            return res.render('./admin/view_student_interviews', {
+                menuPartial: '_admin_menu',
+                title: 'View Student Interviews',
+                interviews:interviewsList
+            })
+        } catch (err) {
+            console.log("Error while getting the Student interviews", err)
+            return res.status(500).send(`<script>alert("Internal server error.")
+            window.location.href = '/admin/companies'
+            </script>`)
+        }
+    }
+    // get student
     async getStudent(req, res) {
         try {
             const batch = await Batch.find()
@@ -434,6 +471,7 @@ export default class AdminController{
             </script>`)
         }
     }
+    // add student
     async postStudent(req, res) {
         try {
             const { batch, college, name, contact, placement_status, status, dsa, webD, react } = req.body
@@ -462,6 +500,7 @@ export default class AdminController{
             res.status(500).json({error: "Internal server error."})
         }
     }
+    // get all the students
     async getStudents(req, res) {
         try {
             let interview_id = req.query.inter_id
@@ -477,6 +516,12 @@ export default class AdminController{
                 return res.status(404).send(`<script>
                 alert("Invalid Interview")
                 window.location.href = '/admin/companies'
+                </script>`)
+            }
+            if (interviewExist.date < new Date()) {
+                return res.status(400).send(`<script>
+                alert("Can't register for past date Interviews."); 
+                window.history.back()
                 </script>`)
             }
             const students = await Student.find().populate('college', 'name -_id').populate('batch', 'batchName -_id').populate('subjects')
@@ -499,6 +544,7 @@ export default class AdminController{
             </script>`)
         }
     }
+    // register student in an interview using ajax
     async registerStudent(req, res) {
         try {
             // console.log(req.query)
@@ -514,6 +560,9 @@ export default class AdminController{
             }
             const studentExist = await Student.findById(student)
             const interviewExist = await Interview.findById(interv_id)
+            if (interviewExist.date < new Date()) {
+                return res.status(400).json({error:"Entries for this interview are closed now."})
+            }
             if (!studentExist || !interviewExist) {
                 return res.status(404).send(`<script>
                 alert("Invalid Student/ Interview")
@@ -541,6 +590,7 @@ export default class AdminController{
             return res.status(500).json({error:"Internal Server error"})
         }
     }
+    // deregister student from the interview using ajax
     async deRegStudent(req, res) {
         try {
             let student = req.query.stud_id
@@ -582,6 +632,86 @@ export default class AdminController{
         } catch (err) {
             console.error("Error occured in deregisterStudent", err)
             return res.status(500).json({ error: "Internal Server error" })
+        }
+    }
+    async getResInterviews(req, res) {
+        try {
+            const currentDate = new Date();
+            const interviews = await Interview.find({ date: { $lt: currentDate } }).populate('company')
+            return res.render('./admin/view_all_interviews', {
+                title: 'View all interviews',
+                menuPartial: '_admin_menu',
+                interviews:interviews
+            })
+        } catch (err) {
+            console.error("Error occured in getStudents", err)
+            return res.status(500).send(`<script>
+            alert("Internal server error")
+            window.location.href = '/admin/companies'
+            </script>`)
+        }
+    }
+    async getStudentInterviewResults(req, res) {
+        try {
+            let interv_id = req.query.interv_id
+            interv_id = interv_id.trim()
+            if (interv_id.length < 24) {
+                return res.status(404).send(`<script>
+                alert("Invalid Interview")
+                window.history.back()
+                </script>`)
+            }
+            const interviewExist = await Interview.findById(interv_id)
+            if (!interviewExist) {
+                return res.status(404).send(`<script>
+                alert("No Interview found with this ID")
+                window.history.back()
+                </script>`)
+            }
+            if (interviewExist.students.length < 1) {
+                return res.status(400).send(`<script>
+                alert("No student is registered."); 
+                window.history.back()
+                </script>`)
+            }
+            if (interviewExist.date > new Date()) {
+                return res.status(400).send(`<script>
+                alert("Invalid Interview Date."); 
+                window.history.back()
+                </script>`)
+            }
+            const students = await SIMapper.find({interview:interv_id}).populate({path:'student', populate:[{path:'batch'}, {path:'college'}]})
+            return res.render('./admin/add_student_interview_status', {
+                title: 'Update Interview Status',
+                menuPartial: '_admin_menu',
+                students:students
+            })
+        } catch (err) {
+            console.error("Error occured in getStudentInterviewResults", err)
+            return res.status(500).send(`<script>
+            alert("Internal server error")
+            window.history.back()
+            </script>`)
+        }
+    }
+    async postStudentInterviewResults(req, res) {
+        try {
+            let { stud_id, interv_id, status } = req.query
+            stud_id = stud_id.trim()
+            interv_id = interv_id.trim()
+            if (stud_id.length < 24 || interv_id.length < 24) {
+                return res.status(404).json({success:false, message:"Invalid student/ interview Id"})
+            }
+            const relationExist = await SIMapper.findOne({ interview: interv_id, student: stud_id })
+            if (!relationExist) {
+                return res.status(404).json({success:false, message:"Invalid entry attempt"})
+            }
+            relationExist.status = status
+            await relationExist.save()
+            return res.status(200).json({success:true, message:"Updated ssuccessfully"})
+        } catch (err) {
+            console.log("Error occured while updating interview status", err)
+            return res.status(500).json({success:false, message:"Server error"})
         }
     }
 }
