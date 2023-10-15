@@ -5,9 +5,7 @@
   "description": "Employee Performance Review Feedback System",
   "main": "server.js",
   "scripts": {
-    "watch-css": "sass ./public/static/scss/:./public/static/css/ --watch --no-source-map",
-    "start-server": "node-dev server.js",
-    "start": "concurrently \"npm run watch-css\" \"npm run start-server\""
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
