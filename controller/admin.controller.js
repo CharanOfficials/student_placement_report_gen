@@ -550,31 +550,28 @@ export default class AdminController{
             // console.log(req.query)
             let student = req.query.stud_id
             let interv_id = req.query.interv_id
+            if (!interv_id || !student) {
+                return res.status(404).json({success:false, message:"Student ID/ Interview ID is mendatory."})
+            }
             student = student.trim()
             interv_id = interv_id.trim()
             if (student.length < 24 || interv_id.length < 24) {
-                return res.status(404).send(`<script>
-                alert("Invalid Student/ Interview")
-                window.location.href = '/admin/companies'
-                </script>`)
+                return res.status(404).json({success:false, message:"Invalid student/ interview ID."})
             }
             const studentExist = await Student.findById(student)
             const interviewExist = await Interview.findById(interv_id)
             if (interviewExist.date < new Date()) {
-                return res.status(400).json({error:"Entries for this interview are closed now."})
+                return res.status(400).json({success:false, message:"Entries for this interview are closed now."})
             }
             if (!studentExist || !interviewExist) {
-                return res.status(404).send(`<script>
-                alert("Invalid Student/ Interview")
-                window.location.href = '/admin/companies'
-                </script>`)
+                return res.status(400).json({success:false, message:"Invalid student/ interview."})
             }
             const mapperExist = await SIMapper.findOne({
                 interview: interv_id,
                 student:student
             })
             if (mapperExist) {
-                return res.status(400).json("Duplicate entry not allowed")
+                return res.status(400).json({success:false, message:"Duplicate entry are not allowed"})
             }
             studentExist.interviews.push(interv_id)
             await studentExist.save()
@@ -587,7 +584,7 @@ export default class AdminController{
             return res.status(200).json({success:true, message:"Registered successfully"})
         } catch (err) {
             console.error("Error occured in registerStudent", err)
-            return res.status(500).json({error:"Internal Server error"})
+            return res.status(500).json({success:false, message:"Internal Server error"})
         }
     }
     // deregister student from the interview using ajax
@@ -595,28 +592,25 @@ export default class AdminController{
         try {
             let student = req.query.stud_id
             let interv_id = req.query.interv_id
+            if (!interv_id || !student) {
+                return res.status(404).json({success:false, message:"Student ID/ Interview ID is mendatory."})
+            }
             student = student.trim()
             interv_id = interv_id.trim()
             if (student.length < 24 || interv_id.length < 24) {
-                return res.status(404).send(`<script>
-                alert("Invalid Student/ Interview")
-                window.location.href = '/admin/companies'
-                </script>`)
+                return res.status(404).json({success:false, message:"Invalid student/ interview ID."})
             }
             const mapperExist = await SIMapper.findOne({
                 interview: interv_id,
                 student:student
             })
             if (!mapperExist) {
-                return res.status(400).json("No entry found")
+                return res.status(400).json({success:false, message:"No entry found"})
             }
             const studentExist = await Student.findById(student)
             const interviewExist = await Interview.findById(interv_id)
             if (!studentExist || !interviewExist) {
-                return res.status(404).send(`<script>
-                alert("Invalid Student/ Interview")
-                window.location.href = '/admin/companies'
-                </script>`)
+                return res.status(400).json({success:false, message:"Invalid student/ interview."})
             }
             studentExist.interviews.pull(interv_id)
             await studentExist.save()
@@ -631,7 +625,7 @@ export default class AdminController{
             }
         } catch (err) {
             console.error("Error occured in deregisterStudent", err)
-            return res.status(500).json({ error: "Internal Server error" })
+            return res.status(500).json({success:false, message:"Internal Server error"})
         }
     }
     async getResInterviews(req, res) {
@@ -697,6 +691,9 @@ export default class AdminController{
     async postStudentInterviewResults(req, res) {
         try {
             let { stud_id, interv_id, status } = req.query
+            if (!stud_id || !interv_id || !status) {
+                return res.status(404).json({success:false, message:"Invalid student/ interview Id/ Status"})
+            }
             stud_id = stud_id.trim()
             interv_id = interv_id.trim()
             if (stud_id.length < 24 || interv_id.length < 24) {

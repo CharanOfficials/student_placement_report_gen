@@ -229,9 +229,9 @@ $('#register_swap').on('click', async function (e) {
   const link = $this.attr('href');
   const text = $this.attr('data-state');
   let newLink = link.split('?');
-
+  let response
   try {
-    const response = await fetch(link, {
+    response = await fetch(link, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -242,7 +242,7 @@ $('#register_swap').on('click', async function (e) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    const data = await response.json();
+    response = await response.json();
     if (text === "true") {
       newLink = "/admin/regStudent?" + newLink[1];
       $this.html("false");
@@ -254,7 +254,8 @@ $('#register_swap').on('click', async function (e) {
     }
     $this.attr('href', newLink);
   } catch (error) {
-    alert("Error Occured. Kindly check interview date.");
+    response = await response.json();
+    alert(response.message);
   }
 });
 // Update name of the button on status change
@@ -268,21 +269,22 @@ $('#interv_status_update').on('click', async function (e) {
   const link = $this.attr('href');
   const status = $('#interv_status').val();
   let newLink = link + `&status=${status}`;
+  let response
   try {
-    const response = await fetch(newLink, {
+    response = await fetch(newLink, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       }
     });
-
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-    const data = await response.json();
+    response = await response.json();
     $('#interv_status_update').html('Saved')
   } catch (error) {
-    alert("Error Occured. Kindly contact admin.");
+    response = await response.json();
+    alert(response.message);
   }
 });
 
