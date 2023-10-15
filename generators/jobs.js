@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
 dotenv.config()
+import fetch from 'node-fetch'
 
 const apiKey = process.env.API_KEY
 const appKey = process.env.APP_KEY
