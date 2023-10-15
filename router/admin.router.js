@@ -114,6 +114,9 @@ router.get('/studentsresult', validateAdmin, (req, res) => {
 router.post('/submitstudentsresult', validateAdmin, (req, res) => {
     adminController.postStudentInterviewResults(req,res)
 })
+router.get('/downloadfile', validateAdmin, (req, res) => {
+    adminController.generateDataFile(req, res)
+})
 // invalid page route for /admin
 router.use('/', (req, res) => {
     res.status(404);

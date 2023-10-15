@@ -7,6 +7,7 @@ import Company from '../model/company.model.js'
 import Interview from '../model/interview.model.js'
 import Student from '../model/student.model.js'
 import SIMapper from '../model/studentInterviewMapper.model.js'
+import { genData } from '../generators/csv_gen.js'
 
 export default class AdminController{
     // To retrive the department page
@@ -709,6 +710,22 @@ export default class AdminController{
         } catch (err) {
             console.log("Error occured while updating interview status", err)
             return res.status(500).json({success:false, message:"Server error"})
+        }
+    }
+    async generateDataFile(req, res) {
+        try {
+            await genData()   
+            return res.download('./csv/studentsResults.csv', (err) => {
+                if (err) {
+                    return res.send(`<script>alert('Error occured while downloading the file')</script>`)
+                }
+            })
+        } catch (err) {
+            console.error("Error occured in generateDataFile", err)
+            return res.status(500).send(`<script>
+            alert("Internal server error")
+            window.location.href = '/admin/companies'
+            </script>`)
         }
     }
 }
