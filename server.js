@@ -6,6 +6,7 @@ import { connectUsingMongoose } from './config/mongoose.js' // mongoose connecti
 import expressEjsLayouts from 'express-ejs-layouts' 
 import router from './router/index.router.js' //main router
 import path from 'path' // To resolve paths
+import getJobData from './generators/jobs.js'
 // server instance
 const app = express()
 // To parse the cookie
@@ -38,6 +39,7 @@ app.use('/', router) // To route to the index page
 const startServer = async () => {
     try {
         await connectUsingMongoose();
+        console.log(await getJobData())
         app.listen(3000, () => {
         console.log("Server is listening at port no. 3000");
     })} catch (error) {
