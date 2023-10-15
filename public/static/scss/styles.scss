@@ -882,3 +882,21 @@ textarea::-webkit-scrollbar {
         padding: 0.2rem 2rem ;
     }
 }
+.jobs_container{
+    padding: 1rem;
+}
+.link{
+    text-decoration: none;
+    color: $primary;
+}
+.packer{
+    display: flex;
+    margin-bottom: 0.5rem;
+    color: $primary;
+}
+.card-title, .card-text, .card-title, .card-header{
+    color: $primary;
+}
+.border-success, .card{
+    border-color: 1px solid $primary;
+}

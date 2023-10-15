@@ -39,7 +39,6 @@ app.use('/', router) // To route to the index page
 const startServer = async () => {
     try {
         await connectUsingMongoose();
-        console.log(await getJobData())
         app.listen(3000, () => {
         console.log("Server is listening at port no. 3000");
     })} catch (error) {

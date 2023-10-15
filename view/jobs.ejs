@@ -1,0 +1,35 @@
+<div class="card-group jobs_container">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <%jobs.forEach((j, index)=>{%>
+        <div class="col">
+            <div class="card border-success mb-1" style="max-width: 25rem;">
+                <div class="card-header bg-transparent border-success"><%=j.title%></div>
+                <div class="card-body text-success">
+                    <div class="packer">
+                        <h6 class="card-title"><strong>Company Name:&nbsp;</strong></h6>
+                        <p class="card-text">
+                            <%=j.company.display_name%>
+                        </p>
+                    </div>
+                    <div class="packer">
+                        <h6 class="card-title"><strong>Created On:&nbsp;</strong></h6>
+                        <p class="card-text">
+                            <% let parts = j.created.split('T') %>
+                            <%= parts[0] %>
+                        </p>
+                    </div>
+                    <div class="packer">
+                        <h6 class="card-title"><strong>Location:&nbsp;</strong></h5>
+                        <p class="card-text">
+                            <%=j.location.display_name%>
+                        </p>
+                    </div>
+                    <h5 class="card-title">Description</h5>
+                    <p class="card-text"><%=j.description%></p>
+                </div>
+                <div class="card-footer bg-transparent border-success"><a class="link" href="<%=j.redirect_url%>" target="_blank">More Details/ Apply</a></div>
+            </div>
+        </div>
+        <%})%>>
+    </div>
+</div>

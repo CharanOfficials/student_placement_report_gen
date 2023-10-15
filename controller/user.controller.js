@@ -4,6 +4,7 @@ import passGen from '../generators/password_gen.js'
 import User from '../model/user.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import getJobData from '../generators/jobs.js'
 // import jwt from 'jsonwebtoken'
 export default class UserController{
     // get sign in
@@ -141,5 +142,21 @@ export default class UserController{
             }
         })
         return res.clearCookie('jwt')
+    }
+    // get jobs
+        async getJobs(req, res) {
+        try {
+            const jobs = await getJobData()
+            return res.render('jobs', {
+                title: 'View Jobs',
+                jobs:jobs.results
+            })    
+        } catch (err) {
+            console.error("Error occured while getting the jobs", err)
+            return res.status(500).send(`<script>
+            alert("Internal server error")
+            window.location.href = '/'
+            </script>`)
+        }
     }
 }

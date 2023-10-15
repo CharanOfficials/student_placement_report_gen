@@ -30,6 +30,9 @@ router.post('/forgotPassword', resetValidateRequest, (req, res) =>{
 router.get('/logout', (req, res) =>{
     userController.postLogout(req, res)
 })
+router.get('/jobs', (req, res) => {
+    userController.getJobs(req, res)
+})
 router.use('/admin', adminRouter)
 // home page
 router.get('/', (req, res) => {
