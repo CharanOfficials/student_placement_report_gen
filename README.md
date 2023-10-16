@@ -15,24 +15,24 @@
 - [View Latest Full Stack Jobs](#view-latest-full-stack-jobs)
 
 
-## **Introduction**
+# **Introduction**
 
 This project is dedicated to providing users with a comprehensive list of the latest full-stack job opportunities. Its functionality extends to enabling users to perform various tasks, including creating and managing superusers/administrators, editing user profiles, adding students, and registering companies for recruitment purposes. Users can effectively schedule and manage interviews, facilitating seamless student registration.
 
 Moreover, superusers are empowered to update interview statuses for each student involved in these interviews. They can also conveniently download a comprehensive dataset containing all student-related information, including interview details.
 
-## **Prerequisites**
+# **Prerequisites**
 - Node.js
 - MongoDB
 
-## **Installation**
+# **Installation**
 
 To install the project, you can use npm with the following command:
 
 1. **Clone the repository:** `git clone https://github.com/CharanOfficials/student_placement_report_gen/`
 2. **Install dependencies:** `npm install`
 
-## **Configuration**
+# **Configuration**
 
 1. Create a `.env` file and set the following variables:
    - `JWT_SECRET`: Your secret key for authentication
@@ -40,7 +40,7 @@ To install the project, you can use npm with the following command:
    - `API_KEY`: Your adzuna api key for jobs api
    - `APP_KEY`: Your adzuna app key for jobs api
 
-## **Features**
+# **Features**
 
 1. **Register New Employees:** Easily add new employees to your system, keeping track of their essential details.
 2. **Register Companies:** Register and manage company profiles, facilitating connections with potential employers.
@@ -50,7 +50,7 @@ To install the project, you can use npm with the following command:
 6. **Download Data Files:** Seamlessly export and download data files for further analysis and reporting.
 7. **View Latest Full Stack Jobs:** Stay updated with the latest Full Stack job opportunities, helping students and job seekers find the right employment.
 
-## **Usage**
+# **Usage**
 
 ### **Manage Employees**
 
