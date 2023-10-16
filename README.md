@@ -1,5 +1,18 @@
 # Student Placement Report Generator
 
+## [Introduction](#introduction)
+## [Prerequisites](#prerequisites)
+## [Installation](#installation)
+## [Configuration](#configuration)
+## [Features](#features)
+## [Usage](#usage)
+   ### [Manage Employees](#manage-employees)
+   ### [Manage Students](#manage-students)
+   ### [Manage Interviews](#manage-interviews)
+   ### [Add Interview Results](#add-interview-results)
+   ### [Download Data](#download-data)
+## [View Latest Full Stack Jobs](#view-latest-full-stack-jobs)
+
 ## **Introduction**
 
 This project is dedicated to providing users with a comprehensive list of the latest full-stack job opportunities. Its functionality extends to enabling users to perform various tasks, including creating and managing superusers/administrators, editing user profiles, adding students, and registering companies for recruitment purposes. Users can effectively schedule and manage interviews, facilitating seamless student registration.
