@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 dotenv.config()
-import fetchApi from 'node-fetch'
+import axios from 'axios'
 
 const apiKey = process.env.API_KEY
 const appKey = process.env.APP_KEY
@@ -14,16 +14,17 @@ const max_days_old = 3
 
 const getJobData = async () => {
     try {
-        const adzunaAPIURL = `https://api.adzuna.com/v1/api/jobs/${location}/search/1?app_id=${apiKey}&app_key=${appKey}&results_per_page=${results_per_page}&what=${profile}&what_exclude=${what_exclude}&max_days_old=${max_days_old}&sort_by=${sort_by}&full_time=1&permanent=1&content-type=application/json`
-        const response = await fetchApi(adzunaAPIURL)
-        if (response.ok) {
-            const data = await response.json()
-            return data
+        const adzunaAPIURL = `https://api.adzuna.com/v1/api/jobs/${location}/search/1?app_id=${apiKey}&app_key=${appKey}&results_per_page=${results_per_page}&what=${profile}&what_exclude=${what_exclude}&max_days_old=${max_days_old}&sort_by=${sort_by}&full_time=1&permanent=1`;
+        
+        const response = await axios.get(adzunaAPIURL, { headers: { 'Content-Type': 'application/json' } });
+        
+        if (response.status === 200) {
+            return response.data;
         } else {
-            throw new Error(`Error: HTTP status ${response.status}`)
+            throw new Error(`Error: HTTP status ${response.status}`);
         }
     } catch (err) {
-        console.error('Error fetching job listings:', err)
+        console.error('Error fetching job listings:', err);
     }
 }
 
