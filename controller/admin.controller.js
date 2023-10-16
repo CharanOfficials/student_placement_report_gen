@@ -717,7 +717,10 @@ export default class AdminController{
             await genData()   
             return res.download('./csv/studentsResults.csv', (err) => {
                 if (err) {
-                    return res.send(`<script>alert('Error occured while downloading the file')</script>`)
+                    return res.send(`<script>
+                    alert('Error occured while downloading the file'); 
+                    window.location.href = '/'
+                    </script>`)
                 }
             })
         } catch (err) {
