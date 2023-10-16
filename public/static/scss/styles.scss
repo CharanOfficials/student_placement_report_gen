@@ -171,6 +171,7 @@ footer {
 }
 
 .pos-outer-container {
+    border: 1px solid $primary;
     margin-top: 2rem;
     min-height: 90vh;
     background-color: transparent;
@@ -200,11 +201,11 @@ footer {
                 outline: none;
                 border-bottom: #2196F3 0.2rem solid;
                 font-size: 1.2rem;
-                height: 1.9rem;
+                height: 2.3rem;
             }
 
             input {
-                padding-bottom: 0.8rem;
+                padding-bottom: 0.1rem;
             }
         }
     }
