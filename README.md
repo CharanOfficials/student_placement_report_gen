@@ -1,17 +1,19 @@
 # Student Placement Report Generator
 
-## [Introduction](#introduction)
-## [Prerequisites](#prerequisites)
-## [Installation](#installation)
-## [Configuration](#configuration)
-## [Features](#features)
-## [Usage](#usage)
-   ### [Manage Employees](#manage-employees)
-   ### [Manage Students](#manage-students)
-   ### [Manage Interviews](#manage-interviews)
-   ### [Add Interview Results](#add-interview-results)
-   ### [Download Data](#download-data)
-## [View Latest Full Stack Jobs](#view-latest-full-stack-jobs)
+## Table of Contents
+- [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Features](#features)
+- [Usage](#usage)
+  - [Manage Employees](#manage-employees)
+  - [Manage Students](#manage-students)
+  - [Manage Interviews](#manage-interviews)
+  - [Add Interview Results](#add-interview-results)
+  - [Download Data](#download-data)
+- [View Latest Full Stack Jobs](#view-latest-full-stack-jobs)
+
 
 ## **Introduction**
 
