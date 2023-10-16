@@ -1,17 +1,24 @@
+import express from 'express'
 import session from 'express-session' // Use session to store cookie
+import connectMongo from 'connect-mongodb-session'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv' //to store env variables
-import express from 'express'
 import { connectUsingMongoose } from './config/mongoose.js' // mongoose connection for db
 import expressEjsLayouts from 'express-ejs-layouts' 
 import router from './router/index.router.js' //main router
 import path from 'path' // To resolve paths
-import getJobData from './generators/jobs.js'
+
 // server instance
 const app = express()
 // To parse the cookie
 app.use(cookieParser())
 dotenv.config() // To enable environment variables
+const MongoDBStore = connectMongo(session) // To store session in DB
+// To maintain session in DB rather than in memory
+const store = new MongoDBStore({
+    uri: process.env.DB_URL,
+    collection:'sessions'
+})
 // To store JWT in cookie 
 app.use(session({
     secret: process.env.JWT_SECRET,
@@ -19,8 +26,10 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         secure: true,
-        // httpOnly: true
-    }
+        httpOnly: true,
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 1)
+    },
+    store:store,
 }))
 app.use(express.static(path.join(path.resolve(), 'public')))
 // using body params

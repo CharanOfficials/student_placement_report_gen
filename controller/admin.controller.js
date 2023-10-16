@@ -366,8 +366,8 @@ export default class AdminController{
             if (!comp) {
                 return res.status(404).json({error:"Invalid company id."})
             }
-            const interviewExist = await Interview.findOne({ profileName: profile_name })
-            if (!interviewExist) {
+            // const interviewExist = await Interview.findOne({ profileName: profile_name })
+            // if (!interviewExist) {
                 const interview = await Interview.create({
                     profileName:profile_name,
                     profileDescription: profile_desc,
@@ -382,11 +382,11 @@ export default class AdminController{
                     success: true,
                     message:"Interview added successfully"
                 })
-            } 
-            return res.status(409).json({
-                success: false,
-                error: 'Duplicate entry detected.'
-            })
+            
+            // return res.status(409).json({
+            //     success: false,
+            //     error: 'Duplicate entry detected.'
+            // })
         } catch (err) {
             console.log("Error while adding the Company", err)
             res.status(500).json({error: "Internal server error."})
@@ -549,8 +549,8 @@ export default class AdminController{
     async registerStudent(req, res) {
         try {
             // console.log(req.query)
+            let { interv_id } = req.query
             let student = req.query.stud_id
-            let interv_id = req.query.interv_id
             if (!interv_id || !student) {
                 return res.status(404).json({success:false, message:"Student ID/ Interview ID is mendatory."})
             }
@@ -692,7 +692,7 @@ export default class AdminController{
     async postStudentInterviewResults(req, res) {
         try {
             let { stud_id, interv_id, status } = req.query
-            if (!stud_id || !interv_id || !status) {
+            if (stud_id === 'undefined' || interv_id  === 'undefined' || status  === 'undefined') {
                 return res.status(404).json({success:false, message:"Invalid student/ interview Id/ Status"})
             }
             stud_id = stud_id.trim()
@@ -709,12 +709,12 @@ export default class AdminController{
             return res.status(200).json({success:true, message:"Updated ssuccessfully"})
         } catch (err) {
             console.log("Error occured while updating interview status", err)
-            return res.status(500).json({success:false, message:"Server error"})
+            return res.status(500).json({success:false, message:"Internal Server error"})
         }
     }
     async generateDataFile(req, res) {
         try {
-            await genData()   
+            await genData()
             return res.download('./csv/studentsResults.csv', (err) => {
                 if (err) {
                     return res.send(`<script>

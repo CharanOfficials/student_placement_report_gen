@@ -15,7 +15,6 @@
                     <th id="custom_col" scope="col">Placement Status</th>
                     <th id="custom_col" scope="col">No. of Interviews</th>
                     <th id="custom_col" scope="col">Select Status</th>
-                    <th id="custom_col" scope="col">Update</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,15 +49,12 @@
                             <%= s.student.interviews.length %>
                         </td>
                         <td id="custom_col">
-                            <select name="status" id="interv_status">
+                            <select name="status" class="interv_status" data-link="stud_id=<%=s.student._id%>&interv_id=<%=s.interview%>">
                                 <option value="pass" <%= s.status === "pass" ? 'selected' : '' %> >Pass</option>
                                 <option value="failed" <%= s.status === "failed" ? 'selected' : '' %>>Failed</option>
                                 <option value="on_hold" <%= s.status === "on_hold" ? 'selected' : '' %>>On Hold</option>
                                 <option value="not_attempted" <%= s.status === "not_attempted" ? 'selected' : '' %>>Not Attempted</option>
                             </select required>
-                        </td>
-                        <td id="custom_col">
-                            <a id="interv_status_update" href="/admin/submitstudentsresult?stud_id=<%=s.student._id%>&interv_id=<%=s.interview%>">Save</a>
                         </td>
                     <% }) %>
             </tbody>

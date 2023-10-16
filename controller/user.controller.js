@@ -36,9 +36,8 @@ export default class UserController{
                     }
                 )
                 let redirect = "/admin/companies"
-                // if (account_type === 'employee') {
-                //     redirect = "/employee/pendingfeedbacks"
-                // }
+                req.session.userType = user.account_type
+                req.session.save()
                 res.cookie('jwt', token, { httpOnly: true })
                 return res.status(200).json({success:true, message:"Login successful", token:token, redirect:redirect})   
             }else {

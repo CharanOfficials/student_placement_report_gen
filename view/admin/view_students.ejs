@@ -57,13 +57,13 @@
                         <%}%>
                         <%if(s.registered){%>
                             <td id="custom_col">
-                                <a id="register_swap" data-state="true" href="/admin/deRegStudent?stud_id=<%=s._id%>&interv_id=<%=interview_id%>">
+                                <a class="register_swap" data-state="true" href="/admin/deRegStudent?stud_id=<%=s._id%>&interv_id=<%=interview_id%>">
                                     true
                                 </a>
                             </td>
                         <%}else{%>
                             <td id="custom_col">
-                                <a id="register_swap" data-state="false" href="/admin/regStudent?stud_id=<%=s._id%>&interv_id=<%=interview_id%>">
+                                <a class="register_swap" data-state="false" href="/admin/regStudent?stud_id=<%=s._id%>&interv_id=<%=interview_id%>">
                                     false
                                 </a>
                             </td>

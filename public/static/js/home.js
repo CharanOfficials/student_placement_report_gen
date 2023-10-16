@@ -223,7 +223,7 @@ $('#sub_allocation').on('click', function (e) {
 }
 });
 // Flip interview registartion status
-$('#register_swap').on('click', async function (e) {
+$('.register_swap').on('click', async function (e) {
   e.preventDefault();
   const $this = $(this);
   const link = $this.attr('href');
@@ -259,17 +259,12 @@ $('#register_swap').on('click', async function (e) {
   }
 });
 // Update name of the button on status change
-$('#interv_status').change(function() {
-  $('#interv_status_update').html('Save')
-});
 
-$('#interv_status_update').on('click', async function (e) {
-  e.preventDefault();
-  const $this = $(this);
-  const link = $this.attr('href');
-  const status = $('#interv_status').val();
-  let newLink = link + `&status=${status}`;
-  let response
+$(document).on('change', '.interv_status', async function () {
+  const status = $(this).val();
+  const link = $(this).attr('data-link')
+  const href= "/admin/submitstudentsresult?"
+  const newLink =  `${href}${link}&status=${status}`
   try {
     response = await fetch(newLink, {
       method: 'POST',
@@ -281,13 +276,13 @@ $('#interv_status_update').on('click', async function (e) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     response = await response.json();
-    $('#interv_status_update').html('Saved')
+    alert("Updated")
   } catch (error) {
     response = await response.json();
     alert(response.message);
   }
 });
-
+    
 // On dropdoen change in peformance participation page
 let $dropdown = $('#dropdown');
 let $multiselect = $('#multiselect');

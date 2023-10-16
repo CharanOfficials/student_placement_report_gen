@@ -24,6 +24,7 @@ const validateAdmin = (req, res, next) => {
         }
         req.userID = payloadjwt.userId
         req.email = payloadjwt.userEmail
+        
         // If valid call next
         next()
     } catch (err) {
