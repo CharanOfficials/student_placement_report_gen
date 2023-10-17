@@ -31,6 +31,7 @@ To install the project, you can use npm with the following command:
 
 1. **Clone the repository:** `git clone https://github.com/CharanOfficials/student_placement_report_gen/`
 2. **Install dependencies:** `npm install`
+3. **Start Server:** `npm start`
 
 # **Configuration**
 
